@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Bounty System - Leaderboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/leaderboard.css">
+</head>
+<body class="leaderboard-body">
+    <header class="main-header">
+        <nav class="nav-bar">
+            <div class="nav-brand">
+                <h1>BUG BOUNTY REALM</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="home.html" class="nav-link">Home</a></li>
+                <li><a href="profile.html" class="nav-link">Profile</a></li>
+                <li><a href="leaderboard.html" class="nav-link active">Leaderboard</a></li>
+                <li><a href="reviews.html" class="nav-link">Reviews</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li><a href="#" id="logoutBtn" class="nav-link">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="leaderboard-content">
+        <div class="leaderboard-header">
+            <h1>Hall of Champions</h1>
+            <p>The elite bug hunters of the realm</p>
+        </div>
+
+        <div class="leaderboard-container">
+            <div class="leaderboard-table">
+                <div class="table-header">
+                    <div class="header-rank">Rank</div>
+                    <div class="header-name">Hunter</div>
+                    <div class="header-title">Title</div>
+                    <div class="header-reputation">Reputation</div>
+                </div>
+                
+                <div id="leaderboardList" class="table-body">
+                    <!-- Leaderboard entries will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="your-position">
+            <h3>Your Position</h3>
+            <div id="userPosition" class="position-card">
+                <div class="position-rank">#--</div>
+                <div class="position-name">Your Name</div>
+                <div class="position-title">Your Title</div>
+                <div class="position-reputation">0 RP</div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth-check.js"></script>
+    <script src="js/leaderboard.js"></script>
+</body>
+</html>

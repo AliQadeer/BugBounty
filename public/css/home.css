@@ -1,0 +1,477 @@
+/* Medieval Home Page Styles */
+.home-body {
+    background-image: url('../images/home_bg.gif');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: calc(100vh - 80px);
+}
+
+.welcome-section {
+    text-align: center;
+    margin-bottom: 3rem;
+    background: linear-gradient(135deg, rgba(61, 41, 20, 0.9), rgba(0, 0, 0, 0.8));
+    padding: 2rem;
+    border-radius: 15px;
+    border: 3px solid var(--gold);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+}
+
+.welcome-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--gold);
+    font-family: var(--font-gothic);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 25px var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+.user-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 1.5rem;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stat-label {
+    color: var(--silver);
+    font-family: var(--font-english);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.stat-value {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px var(--gold);
+}
+
+.vulnerabilities-section {
+    margin-bottom: 3rem;
+}
+
+.vulnerabilities-section h2 {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px var(--gold);
+}
+
+.vulnerabilities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.vulnerability-card {
+    background: linear-gradient(135deg, rgba(61, 41, 20, 0.8), rgba(0, 0, 0, 0.7));
+    border: 2px solid var(--bronze);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.vulnerability-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(212, 175, 55, 0.3);
+}
+
+.vulnerability-type {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.vulnerability-description {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.vulnerability-points {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.recent-activity {
+    background: linear-gradient(135deg, rgba(61, 41, 20, 0.8), rgba(0, 0, 0, 0.7));
+    border-radius: 15px;
+    padding: 2rem;
+    border: 2px solid var(--bronze);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.recent-activity h2 {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px var(--gold);
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.activity-item {
+    background: rgba(61, 41, 20, 0.6);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--gold);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--bronze);
+}
+
+.activity-text {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+}
+
+.activity-time {
+    color: var(--silver);
+    font-family: var(--font-english);
+    font-size: 0.9rem;
+}
+
+/* Fixed Enter the Realm Button - Medieval Style */
+.fixed-realm-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+}
+
+.realm-btn {
+    background: linear-gradient(45deg, var(--blood-red), #cc0000);
+    border: 3px solid var(--gold);
+    padding: 1.2rem 2.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: var(--font-gothic);
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--parchment);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    transition: all 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    animation: medievalPulse 2.5s infinite;
+}
+
+@keyframes medievalPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 12px 35px rgba(212, 175, 55, 0.6);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    }
+}
+
+.realm-btn:hover {
+    background: linear-gradient(45deg, #cc0000, #990000);
+    transform: translateY(-3px) scale(1.05);
+    animation: none;
+    box-shadow: 0 12px 30px rgba(212, 175, 55, 0.6);
+}
+
+.btn-text {
+    display: block;
+    position: relative;
+}
+
+/* Enhanced Responsive Design */
+
+/* Large tablets */
+@media (max-width: 1024px) {
+    .main-content {
+        max-width: 100%;
+        padding: 1.5rem;
+    }
+    
+    .vulnerabilities-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.25rem;
+    }
+    
+    .fixed-realm-btn {
+        bottom: 1.5rem;
+        right: 1.5rem;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 1rem;
+    }
+    
+    .welcome-section {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border-radius: 12px;
+    }
+    
+    .welcome-section h1 {
+        font-size: 2rem;
+        letter-spacing: 2px;
+        margin-bottom: 0.75rem;
+    }
+    
+    .user-stats {
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+    
+    .stat-item {
+        text-align: center;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+    }
+    
+    .vulnerabilities-section h2 {
+        font-size: 1.7rem;
+        margin-bottom: 1.25rem;
+    }
+    
+    .vulnerabilities-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .vulnerability-card {
+        padding: 1.25rem;
+    }
+    
+    .vulnerability-type {
+        font-size: 1.2rem;
+    }
+    
+    .fixed-realm-btn {
+        bottom: 1rem;
+        right: 1rem;
+    }
+    
+    .realm-btn {
+        padding: 0.9rem 2rem;
+        font-size: 1rem;
+        letter-spacing: 2px;
+    }
+    
+    .recent-activity {
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+    
+    .recent-activity h2 {
+        font-size: 1.7rem;
+    }
+    
+    .activity-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 1rem;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+    .main-content {
+        padding: 0.75rem;
+    }
+    
+    .welcome-section {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .welcome-section h1 {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .user-stats {
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 0.75rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+    }
+    
+    .stat-value {
+        font-size: 1.3rem;
+    }
+    
+    .vulnerabilities-section h2 {
+        font-size: 1.4rem;
+        letter-spacing: 2px;
+        margin-bottom: 1rem;
+    }
+    
+    .vulnerability-card {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+    
+    .vulnerability-type {
+        font-size: 1.1rem;
+        margin-bottom: 0.4rem;
+    }
+    
+    .vulnerability-description {
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .vulnerability-points {
+        font-size: 1rem;
+    }
+    
+    .fixed-realm-btn {
+        bottom: 0.75rem;
+        right: 0.75rem;
+    }
+    
+    .realm-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        border-radius: 30px;
+    }
+    
+    .recent-activity {
+        padding: 1rem;
+    }
+    
+    .recent-activity h2 {
+        font-size: 1.4rem;
+        letter-spacing: 2px;
+    }
+    
+    .activity-item {
+        padding: 0.75rem;
+        border-radius: 6px;
+    }
+    
+    .activity-text {
+        font-size: 0.9rem;
+    }
+    
+    .activity-time {
+        font-size: 0.8rem;
+    }
+}
+
+/* Small mobile phones */
+@media (max-width: 360px) {
+    .welcome-section h1 {
+        font-size: 1.3rem;
+    }
+    
+    .vulnerabilities-section h2,
+    .recent-activity h2 {
+        font-size: 1.2rem;
+    }
+    
+    .realm-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+    }
+    
+    .vulnerability-card {
+        padding: 0.8rem;
+    }
+}
+
+/* Landscape mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .main-content {
+        padding: 0.75rem;
+    }
+    
+    .welcome-section {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .welcome-section h1 {
+        font-size: 1.5rem;
+    }
+    
+    .user-stats {
+        flex-direction: row;
+        gap: 2rem;
+    }
+    
+    .vulnerabilities-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    
+    .fixed-realm-btn {
+        bottom: 0.5rem;
+        right: 0.5rem;
+    }
+    
+    .realm-btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Bounty System - Profile</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+<body class="profile-body">
+    <header class="main-header">
+        <nav class="nav-bar">
+            <div class="nav-brand">
+                <h1>BUG BOUNTY REALM</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="home.html" class="nav-link">Home</a></li>
+                <li><a href="profile.html" class="nav-link active">Profile</a></li>
+                <li><a href="leaderboard.html" class="nav-link">Leaderboard</a></li>
+                <li><a href="reviews.html" class="nav-link">Reviews</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li><a href="#" id="logoutBtn" class="nav-link">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="profile-content">
+        <div class="profile-header">
+            <div class="rank-display">
+                <h1 id="userRank">Bronze Hunter</h1>
+                <div class="rank-progress">
+                    <div id="rankProgressBar" class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span id="rankProgress">0 / 100</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-main">
+            <div class="left-section">
+                <div class="character-section">
+                    <h3>Character</h3>
+                    <div class="character-display">
+                        <img src="../images/profile character.png" alt="Character" class="character-image">
+                    </div>
+                </div>
+
+                <div class="items-section">
+                    <h3>Equipment</h3>
+                    <div id="userItems" class="items-grid">
+                        <!-- User items will be loaded here -->
+                    </div>
+                </div>
+
+                <div class="reputation-display">
+                    <h3>Reputation Points</h3>
+                    <div class="reputation-value">
+                        <img src="../images/shop_coin.png" alt="Coin" class="coin-icon">
+                        <span id="userReputation">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <div class="badges-section">
+                    <h3>Badges</h3>
+                    <div id="userBadges" class="badges-grid">
+                        <!-- User badges will be loaded here -->
+                    </div>
+                </div>
+
+                <div class="stats-section">
+                    <h3>Statistics</h3>
+                    <div class="stats-list">
+                        <div class="stat-item">
+                            <span class="stat-label">Reports Submitted:</span>
+                            <span id="reportsSubmitted" class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Reports Closed:</span>
+                            <span id="reportsClosed" class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Total Reputation:</span>
+                            <span id="totalReputation" class="stat-value">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Item Modal -->
+    <div id="itemModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalItemName">Item Name</h2>
+            <img id="modalItemImage" src="" alt="Item">
+            <p id="modalItemType">Type: </p>
+            <div class="modal-actions">
+                <button id="equipItemBtn" class="action-btn">Equip Item</button>
+                <button id="unequipItemBtn" class="action-btn secondary">Unequip</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth-check.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Bounty System - Shop</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/shop.css">
+</head>
+<body class="shop-body">
+    <header class="main-header">
+        <nav class="nav-bar">
+            <div class="nav-brand">
+                <h1>BUG BOUNTY REALM</h1>
+            </div>
+            <div class="user-currency">
+                <span class="coin-icon">🪙</span>
+                <span id="userReputation">0</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="home.html" class="nav-link">Home</a></li>
+                <li><a href="profile.html" class="nav-link">Profile</a></li>
+                <li><a href="leaderboard.html" class="nav-link">Leaderboard</a></li>
+                <li><a href="reviews.html" class="nav-link">Reviews</a></li>
+                <li><a href="shop.html" class="nav-link active">Shop</a></li>
+                <li><a href="#" id="logoutBtn" class="nav-link">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="shop-content">
+        <div class="shop-header">
+            <h1>Bounty Hunter's Arsenal</h1>
+            <p>Equip yourself with legendary gear using your hard-earned reputation points!</p>
+        </div>
+
+        <div class="shop-filters">
+            <button class="filter-btn active" data-filter="all">All Items</button>
+            <button class="filter-btn" data-filter="hat">Hats</button>
+            <button class="filter-btn" data-filter="cape">Capes</button>
+            <button class="filter-btn" data-filter="gloves">Gloves</button>
+            <button class="filter-btn" data-filter="mask">Masks</button>
+            <button class="filter-btn" data-filter="boots">Boots</button>
+        </div>
+
+        <div id="shopItems" class="shop-grid">
+            <!-- Shop items will be loaded here -->
+        </div>
+    </main>
+
+    <!-- Purchase Modal -->
+    <div id="purchaseModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Confirm Purchase</h2>
+            <div class="item-preview">
+                <img id="modalItemImage" src="" alt="Item">
+                <div class="item-details">
+                    <h3 id="modalItemName">Item Name</h3>
+                    <p id="modalItemType">Type: </p>
+                    <p class="item-cost">
+                        Cost: <img src="../images/shop_coin.png" alt="Coin" class="coin-icon-small">
+                        <span id="modalItemCost">0</span>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button id="confirmPurchaseBtn" class="action-btn">Purchase</button>
+                <button id="cancelPurchaseBtn" class="action-btn secondary">Cancel</button>
+            </div>
+            <div id="purchaseError" class="error-message"></div>
+            <div id="purchaseSuccess" class="success-message"></div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth-check.js"></script>
+    <script src="js/shop.js"></script>
+</body>
+</html>

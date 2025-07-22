@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Bounty System - Home</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/home.css">
+</head>
+<body class="home-body">
+    <header class="main-header">
+        <nav class="nav-bar">
+            <div class="nav-brand">
+                <h1>BUG BOUNTY REALM</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="home.html" class="nav-link active">Home</a></li>
+                <li><a href="profile.html" class="nav-link">Profile</a></li>
+                <li><a href="leaderboard.html" class="nav-link">Leaderboard</a></li>
+                <li><a href="reviews.html" class="nav-link">Reviews</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li><a href="#" id="logoutBtn" class="nav-link">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="welcome-section">
+            <h1>Welcome, <span id="usernameDisplay">Hunter</span>!</h1>
+            <div class="user-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Reputation:</span>
+                    <span id="userReputation" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Rank:</span>
+                    <span id="userRank" class="stat-value">Bronze</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="vulnerabilities-section">
+            <h2>Available Vulnerabilities</h2>
+            <div id="vulnerabilitiesList" class="vulnerabilities-grid">
+                <!-- Vulnerabilities will be loaded here -->
+            </div>
+        </div>
+
+        <div class="recent-activity">
+            <h2>Recent Activity</h2>
+            <div id="recentReports" class="activity-list">
+                <!-- Recent reports will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Fixed Enter the Realm Button -->
+    <div class="fixed-realm-btn">
+        <button id="enterRealmBtn" class="realm-btn">
+            <span class="btn-text">ENTER THE REALM</span>
+        </button>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth-check.js"></script>
+    <script src="js/home.js"></script>
+</body>
+</html>
