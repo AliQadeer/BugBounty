@@ -1,5 +1,5 @@
 const { getUserRank } = require('../model/reportmodel'); // adjust path as needed
-const { checkforId } = require('../model/usermodel');
+const { checkForId } = require('../model/usermodel');
 
 module.exports.fetchRankById = (req, res, next) => {
     const id = req.params.user_id;
@@ -8,7 +8,7 @@ module.exports.fetchRankById = (req, res, next) => {
         return res.status(400).json({ error: "Please provide a id" });
     }
 
-    checkforId(id, (error, results) => {
+    checkForId(id, (error, results) => {
         if (error) {
             return res.status(500).json({ error: "Error in checking for id" });
         }

@@ -174,14 +174,16 @@ function handlePurchaseConfirm() {
     
     const purchaseData = {
         user_id: user.id,
-        item_id: selectedItem.id
+        shop_item_id: selectedItem.id
     };
     
     API.purchaseItem(purchaseData, function(status, data) {
         confirmBtn.disabled = false;
         confirmBtn.textContent = 'Purchase';
         
-        if (status === 200) {
+        console.log('Purchase response:', status, data); // Debug log
+        
+        if (status === 200 || status === 201) {
             showSuccess('purchaseSuccess', 'Item purchased successfully!');
             
             // Update user reputation

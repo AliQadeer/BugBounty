@@ -190,3 +190,4 @@ module.exports.getAllReports = (callback) => {
     `;
     pool.query(SQLSTATEMENT, callback);
 };
+

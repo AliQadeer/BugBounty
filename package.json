@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "db:create": "node configs/createSchema.js",
+    "db:init": "node configs/initTables.js",
+    "db:setup": "npm run db:create && npm run db:init"
   },
   "repository": {
     "type": "git",

@@ -359,27 +359,48 @@ function handleCloseReport() {
     const user = getCurrentUser();
     if (!user) return;
     
-    // For demo purposes, we'll simulate closing a random report
-    // In a real implementation, you might show a list of open reports to choose from
     const confirmBtn = document.getElementById('confirmCloseBtn');
     confirmBtn.disabled = true;
-    confirmBtn.textContent = 'Closing...';
+    confirmBtn.textContent = 'Loading...';
     
-    // Simulate API call - in reality you'd call a specific report to close
-    setTimeout(() => {
-        const mockCloseResult = {
-            id: Math.floor(Math.random() * 100) + 1,
-            status: 1,
-            closer_id: user.id,
-            user_reputation: (user.reputation || 0) + 50,
-            badge_awarded: null // or a badge name if awarded
-        };
-        
-        confirmBtn.disabled = false;
-        confirmBtn.textContent = 'Close Report';
-        
-        showCloseResults(mockCloseResult);
-    }, 2000);
+    // First, get all open reports
+    API.getAllReports(function(status, data) {
+        if (status === 200) {
+            // Find an open report to close
+            const openReports = data.filter(report => report.status === 0);
+            
+            if (openReports.length === 0) {
+                alert('No open reports available to close!');
+                confirmBtn.disabled = false;
+                confirmBtn.textContent = 'Close Report';
+                return;
+            }
+            
+            // Close the first open report
+            const reportToClose = openReports[0];
+            const updateData = {
+                status: 1,
+                user_id: user.id
+            };
+            
+            confirmBtn.textContent = 'Closing...';
+            
+            API.updateReport(reportToClose.id, updateData, function(updateStatus, updateResult) {
+                if (updateStatus === 200) {
+                    showCloseResults(updateResult);
+                } else {
+                    alert('Failed to close report. Please try again.');
+                }
+                
+                confirmBtn.disabled = false;
+                confirmBtn.textContent = 'Close Report';
+            });
+        } else {
+            alert('Failed to load reports. Please try again.');
+            confirmBtn.disabled = false;
+            confirmBtn.textContent = 'Close Report';
+        }
+    });
 }
 
 function showCloseResults(results) {

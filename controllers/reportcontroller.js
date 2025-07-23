@@ -59,3 +59,4 @@ module.exports.getAllReports = (req, res, next) => {
 
     model.getAllReports(callback);
 };
+

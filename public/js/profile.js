@@ -77,7 +77,7 @@ function displayUserItems(items) {
     }
     
     const html = items.map(item => `
-        <div class="item-slot ${item.equipped ? 'equipped' : ''}" onclick="openItemModal(${item.item_id}, '${escapeHtml(item.name)}', '${escapeHtml(item.type)}', ${item.equipped})">
+        <div class="item-slot" onclick="openItemModal(${item.item_id}, '${escapeHtml(item.name)}', '${escapeHtml(item.type)}', false)">
             <img src="../images/${item.asset_url || item.name.toLowerCase().replace(/\s+/g, ' ') + '.png'}" 
                  alt="${escapeHtml(item.name)}" 
                  class="item-image"
@@ -120,12 +120,34 @@ function loadUserBadges() {
 }
 
 function loadUserStatistics() {
-    // Placeholder statistics - these would come from real API endpoints
-    document.getElementById('reportsSubmitted').textContent = '0';
-    document.getElementById('reportsClosed').textContent = '0';
+    const user = getCurrentUser();
+    if (!user) return;
     
-    // In a real implementation, you would call APIs to get these stats
-    // For example: API.getUserReports(userId, callback)
+    // Use existing getAllReports endpoint to calculate user statistics
+    API.getAllReports(function(status, data) {
+        if (status === 200) {
+            calculateUserStatistics(data, user.id);
+        } else {
+            // Set default values if API fails
+            document.getElementById('reportsSubmitted').textContent = '0';
+            document.getElementById('reportsClosed').textContent = '0';
+        }
+    });
+}
+
+function calculateUserStatistics(allReports, userId) {
+    // Count reports submitted by this user (reports they created/found)
+    const reportsSubmitted = allReports.filter(report => report.user_id === userId).length;
+    
+    // Count reports closed by this user (status = 1 and user_id = userId)
+    // Note: In the current system, when a report is closed, the user_id gets updated to the closer
+    // So reports_closed = reports where status = 1 AND user_id = current user
+    const reportsClosed = allReports.filter(report => report.status === 1 && report.user_id === userId).length;
+    
+    // Update the display
+    document.getElementById('reportsSubmitted').textContent = reportsSubmitted.toString();
+    document.getElementById('reportsClosed').textContent = reportsClosed.toString();
+    document.getElementById('totalReputation').textContent = user.reputation || '0';
 }
 
 function updateRankProgress(reputation) {
@@ -165,17 +187,12 @@ function openItemModal(itemId, itemName, itemType, isEquipped) {
         this.src = '../images/default-item.png';
     };
     
-    // Show/hide equip buttons
+    // Hide equip buttons since equip functionality is removed
     const equipBtn = document.getElementById('equipItemBtn');
     const unequipBtn = document.getElementById('unequipItemBtn');
     
-    if (isEquipped) {
-        equipBtn.style.display = 'none';
-        unequipBtn.style.display = 'inline-block';
-    } else {
-        equipBtn.style.display = 'inline-block';
-        unequipBtn.style.display = 'none';
-    }
+    if (equipBtn) equipBtn.style.display = 'none';
+    if (unequipBtn) unequipBtn.style.display = 'none';
     
     document.getElementById('itemModal').style.display = 'block';
 }
@@ -196,39 +213,8 @@ function setupModalHandlers() {
         }
     });
     
-    // Equip item button
-    document.getElementById('equipItemBtn').addEventListener('click', function() {
-        if (currentSelectedItem) {
-            equipItem(currentSelectedItem.id, currentSelectedItem.type);
-        }
-    });
-    
-    // Unequip item button - for now just close modal
-    document.getElementById('unequipItemBtn').addEventListener('click', function() {
-        document.getElementById('itemModal').style.display = 'none';
-    });
 }
 
-function equipItem(itemId, itemType) {
-    const user = getCurrentUser();
-    if (!user) return;
-    
-    const equipData = {
-        user_id: user.id,
-        item_id: itemId
-    };
-    
-    API.equipItem(equipData, function(status, data) {
-        if (status === 200) {
-            document.getElementById('itemModal').style.display = 'none';
-            // Reload inventory to show updated equipped status
-            loadUserInventory(user.id);
-        } else {
-            console.error('Failed to equip item:', data);
-            alert('Failed to equip item');
-        }
-    });
-}
 
 function escapeHtml(text) {
     const div = document.createElement('div');

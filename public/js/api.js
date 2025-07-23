@@ -93,7 +93,6 @@ const API_ENDPOINTS = {
     // Shop
     shop: `${API_BASE_URL}/shop`,
     shopPurchase: `${API_BASE_URL}/shop/purchase`,
-    shopEquip: `${API_BASE_URL}/shop/equip`,
     userInventory: (id) => `${API_BASE_URL}/shop/user/${id}/inventory`,
     
     // Leaderboard
@@ -138,13 +137,15 @@ const API = {
     
     // Reports
     createReport: (reportData, callback) => {
-        const token = getToken();
-        fetchMethod(API_ENDPOINTS.reports, callback, 'POST', reportData, token);
+        fetchMethod(API_ENDPOINTS.reports, callback, 'POST', reportData);
+    },
+    
+    getAllReports: (callback) => {
+        fetchMethod(API_ENDPOINTS.reports, callback, 'GET');
     },
     
     updateReport: (id, reportData, callback) => {
-        const token = getToken();
-        fetchMethod(API_ENDPOINTS.reportById(id), callback, 'PUT', reportData, token);
+        fetchMethod(API_ENDPOINTS.reportById(id), callback, 'PUT', reportData);
     },
     
     // Reviews
@@ -178,14 +179,9 @@ const API = {
     },
     
     purchaseItem: (purchaseData, callback) => {
-        const token = getToken();
-        fetchMethod(API_ENDPOINTS.shopPurchase, callback, 'POST', purchaseData, token);
+        fetchMethod(API_ENDPOINTS.shopPurchase, callback, 'POST', purchaseData);
     },
     
-    equipItem: (equipData, callback) => {
-        const token = getToken();
-        fetchMethod(API_ENDPOINTS.shopEquip, callback, 'PUT', equipData, token);
-    },
     
     getUserInventory: (userId, callback) => {
         fetchMethod(API_ENDPOINTS.userInventory(userId), callback, 'GET');

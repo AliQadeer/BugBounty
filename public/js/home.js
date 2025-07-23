@@ -68,15 +68,45 @@ function displayVulnerabilities(vulnerabilities) {
 
 function loadRecentActivity() {
     const container = document.getElementById('recentReports');
+    container.innerHTML = '<div class="loading">Loading recent activity...</div>';
     
-    // This would be a new endpoint to get recent reports
-    // For now, show placeholder content
-    container.innerHTML = `
-        <div class="activity-item">
-            <div class="activity-text">Recent bug hunting activity will appear here</div>
-            <div class="activity-time">Coming soon</div>
-        </div>
-    `;
+    API.getAllReports(function(status, data) {
+        if (status === 200) {
+            displayRecentActivity(data);
+        } else {
+            container.innerHTML = '<div class="error-message">Failed to load recent activity</div>';
+        }
+    });
+}
+
+function displayRecentActivity(reports) {
+    const container = document.getElementById('recentReports');
+    
+    if (reports.length === 0) {
+        container.innerHTML = '<div class="empty-state">No recent activity</div>';
+        return;
+    }
+    
+    // Show only the last 5 reports
+    const recentReports = reports.slice(0, 5);
+    
+    const html = recentReports.map(report => {
+        const statusText = report.status === 0 ? 'Reported' : 'Resolved';
+        const statusClass = report.status === 0 ? 'status-open' : 'status-closed';
+        
+        return `
+            <div class="activity-item">
+                <div class="activity-text">
+                    <strong>${escapeHtml(report.username)}</strong> ${statusText.toLowerCase()} 
+                    <span class="vulnerability-type">${escapeHtml(report.type)}</span>
+                    <span class="activity-points">+${report.points} pts</span>
+                </div>
+                <div class="activity-status ${statusClass}">${statusText}</div>
+            </div>
+        `;
+    }).join('');
+    
+    container.innerHTML = html;
 }
 
 function setupEventListeners() {
