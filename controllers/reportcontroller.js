@@ -60,8 +60,8 @@ module.exports.getAllReports = (req, res, next) => {
     model.getAllReports(callback);
 };
 
-// CLOSE REPORT - New endpoint for closing reports
-module.exports.closeReport = (req, res) => {
+// CLOSE REPORT - Validation step (first middleware)
+module.exports.validateCloseReport = (req, res, next) => {
     const reportId = req.params.id;
     const closerId = req.body.closer_id;
 
@@ -69,7 +69,7 @@ module.exports.closeReport = (req, res) => {
         return res.status(400).json({ error: "Closer ID is required" });
     }
 
-    // First check if report exists and is not already closed
+    // Check if report exists and is not already closed
     const checkCallback = (error, results) => {
         if (error) {
             return res.status(500).json({ error: "Database error checking report" });
@@ -81,21 +81,24 @@ module.exports.closeReport = (req, res) => {
             return res.status(400).json({ error: "Report is already closed" });
         }
 
-        // Proceed to close the report
-        const closeCallback = (closeError) => {
-            if (closeError) {
-                return res.status(500).json({ error: "Database error closing report" });
-            }
-            return res.status(200).json({ 
-                message: "Report closed successfully",
-                reportId: reportId,
-                closerId: closerId
-            });
-        };
-
-        model.closeReport(reportId, closerId, closeCallback);
+        next(); // Proceed to next middleware
     };
 
     model.checkReportId(reportId, checkCallback);
+};
+
+// CLOSE REPORT - Close the report (second middleware)
+module.exports.executeCloseReport = (req, res, next) => {
+    const reportId = req.params.id;
+    const closerId = req.body.closer_id;
+
+    const closeCallback = (closeError) => {
+        if (closeError) {
+            return res.status(500).json({ error: "Database error closing report" });
+        }
+        next(); // Proceed to badge checking middleware
+    };
+
+    model.closeReport(reportId, closerId, closeCallback);
 };
 

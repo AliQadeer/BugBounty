@@ -530,7 +530,7 @@ function closeReport(reportId) {
         if (status === 200 && data) {
             // Reload reports to show updated status
             loadReportsForClosing();
-            showCloseSuccess(reportId);
+            showCloseSuccess(reportId, data.badge_awarded);
         } else {
             console.error('Error closing report:', status, data);
             showReportsError('Failed to close report: ' + (data?.error || 'Server error'));
@@ -557,9 +557,43 @@ function showReportsError(message) {
     }, 5000);
 }
 
-function showCloseSuccess(reportId) {
-    // You can add a success message here if needed
+function showCloseSuccess(reportId, badgeAwarded) {
     console.log(`Report ${reportId} closed successfully`);
+    
+    if (badgeAwarded) {
+        // Show badge award notification
+        const successMessage = `🎉 Congratulations! You earned the "${badgeAwarded}" badge for closing reports!`;
+        
+        // Create and show badge notification
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+            z-index: 1000;
+            font-weight: bold;
+            max-width: 300px;
+            animation: slideInRight 0.5s ease-out;
+        `;
+        notification.textContent = successMessage;
+        
+        document.body.appendChild(notification);
+        
+        // Remove notification after 5 seconds
+        setTimeout(() => {
+            notification.style.animation = 'slideOutRight 0.5s ease-in';
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 500);
+        }, 5000);
+        
+        console.log(`🏆 Badge awarded: ${badgeAwarded}`);
+    }
 }
 
 function resetQuizState() {

@@ -137,6 +137,18 @@ module.exports.countUserReportsByVulnerability = (user_id, vulnerability_id, cal
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 
+// COUNT how many reports a user has CLOSED for a specific vulnerability
+module.exports.countUserClosedReportsByVulnerability = (closer_id, vulnerability_id, callback) => {
+    const SQLSTATEMENT = `
+    SELECT COUNT(*) AS count FROM Report
+    WHERE closer_id = ? AND vulnerability_id = ? AND status = 1
+    `;
+
+    const VALUES = [closer_id, vulnerability_id];
+
+    pool.query(SQLSTATEMENT, VALUES, callback);
+};
+
 // CHECK if user already has a badge for that vulnerability
 module.exports.checkUserBadge = (user_id, badge_id, callback) => {
     const SQLSTATEMENT = `

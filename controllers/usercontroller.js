@@ -39,6 +39,22 @@ module.exports.getAllUsers = (req, res, next) =>
     
         model.selectAll(callback);
     }
+
+// GET USER BADGES
+module.exports.getUserBadges = (req, res) => {
+    const userId = req.params.id;
+
+    const callback = (error, results) => {
+        if (error) {
+            console.error("Error getting user badges:", error);
+            return res.status(500).json({ error: "Database error" });
+        }
+        
+        return res.status(200).json(results);
+    };
+
+    model.getUserBadges(userId, callback);
+};
 //GET SINGLE USER BY ID 
 module.exports.getUserById = (req, res, next) => {
   const id = req.params.id;

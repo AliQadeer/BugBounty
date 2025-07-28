@@ -13,6 +13,7 @@ const getUserByUsername = require('../middleware/getUserByUsername.js');
 router.post('/', controllers.createNewPlayer, insertingSingleUser);
 router.get('/', controllers.getAllUsers);
 router.get('/:id',controllers.getUserById);
+router.get('/:id/badges', controllers.getUserBadges);
 router.put('/:id',controllers.updateUserById,checkDuplicateUsername,updateById,fetchDetailsFromId);
 
 // AUTHENTICATION ROUTES

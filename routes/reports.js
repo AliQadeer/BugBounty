@@ -16,10 +16,11 @@ const putById = require('../middleware/putById.js')
 const fetchIdandStatus = require('../middleware/fetchIdandStatus.js')
 const updateUserReputationUpdateReport = require('../middleware/updateUserReputationUpdateReport.js')
 const checkAndAwardBadge = require('../middleware/checkAndAwardBadge.js')
+const checkAndAwardBadgeForClosing = require('../middleware/checkAndAwardBadgeForClosing.js')
 const checkVulnerabilityExistsUpdateReport = require('../middleware/checkVulnerabilityExistsUpdateReport.js')
 // Define routes here...
 router.get('/', controllers.getAllReports);
 router.post('/', validateuserandvulIDS, controllers.createNewReport,checkVulnerabilityExists,insertReport,updateUserReputationReport,updateRank,getUserReputation,getUserRank);
 router.put('/:id', validateReportID, controllers.updateReport,checkUserExists,getVulIdFromReport,checkVulnerabilityExistsUpdateReport,putById,fetchIdandStatus,updateUserReputationUpdateReport,checkAndAwardBadge);
-router.patch('/:id/close', controllers.closeReport);
+router.patch('/:id/close', controllers.validateCloseReport, controllers.executeCloseReport, checkAndAwardBadgeForClosing);
 module.exports = router;

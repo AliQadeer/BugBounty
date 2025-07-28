@@ -102,22 +102,51 @@ function displayEmptyInventory() {
 
 function loadUserBadges() {
     const container = document.getElementById('userBadges');
+    const user = getCurrentUser();
     
-    // Placeholder badges - this would connect to a real badges API
-    const badges = [
-        { name: 'XSS Hunter', description: 'Found 15+ XSS vulnerabilities', earned: false },
-        { name: 'SQL Master', description: 'Found 15+ SQL Injection bugs', earned: false },
-        { name: 'First Steps', description: 'Submitted first report', earned: true },
-    ];
+    if (!user) {
+        displayEmptyBadges();
+        return;
+    }
+    
+    container.innerHTML = '<div class="loading">Loading badges...</div>';
+    
+    API.getUserBadges(user.id, function(status, data) {
+        if (status === 200 && data) {
+            displayUserBadges(data);
+        } else {
+            displayEmptyBadges();
+        }
+    });
+}
+
+function displayUserBadges(badges) {
+    const container = document.getElementById('userBadges');
+    
+    if (badges.length === 0) {
+        displayEmptyBadges();
+        return;
+    }
     
     const html = badges.map(badge => `
-        <div class="badge-item ${badge.earned ? 'earned' : ''}">
+        <div class="badge-item earned">
             <div class="badge-name">${escapeHtml(badge.name)}</div>
-            <div class="badge-description">${escapeHtml(badge.description)}</div>
+            <div class="badge-description">Earned for ${escapeHtml(badge.vulnerability_type)} expertise</div>
+            <div class="badge-date">Awarded: ${badge.awarded_at ? new Date(badge.awarded_at).toLocaleDateString() : 'Recently'}</div>
         </div>
     `).join('');
     
     container.innerHTML = html;
+}
+
+function displayEmptyBadges() {
+    const container = document.getElementById('userBadges');
+    container.innerHTML = `
+        <div class="no-badges">
+            <p>No badges earned yet!</p>
+            <p>Close 15 reports of the same vulnerability type to earn badges.</p>
+        </div>
+    `;
 }
 
 function loadUserStatistics() {
@@ -137,13 +166,12 @@ function loadUserStatistics() {
 }
 
 function calculateUserStatistics(allReports, userId) {
-    // Count reports submitted by this user (reports they created/found)
+    // Count reports submitted by this user (reports they originally created/found)
     const reportsSubmitted = allReports.filter(report => report.user_id === userId).length;
     
-    // Count reports closed by this user (status = 1 and user_id = userId)
-    // Note: In the current system, when a report is closed, the user_id gets updated to the closer
-    // So reports_closed = reports where status = 1 AND user_id = current user
-    const reportsClosed = allReports.filter(report => report.status === 1 && report.user_id === userId).length;
+    // Count reports closed by this user (status = 1 and closer_id = userId)
+    // Use closer_id to identify who actually closed the report
+    const reportsClosed = allReports.filter(report => report.status === 1 && report.closer_id === userId).length;
     
     // Update the display
     document.getElementById('reportsSubmitted').textContent = reportsSubmitted.toString();

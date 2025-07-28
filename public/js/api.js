@@ -77,6 +77,7 @@ const API_ENDPOINTS = {
     // Users
     users: `${API_BASE_URL}/users`,
     userById: (id) => `${API_BASE_URL}/users/${id}`,
+    userBadges: (id) => `${API_BASE_URL}/users/${id}/badges`,
     
     // Vulnerabilities
     vulnerabilities: `${API_BASE_URL}/vulnerabilities`,
@@ -122,6 +123,10 @@ const API = {
     
     getUserById: (id, callback) => {
         fetchMethod(API_ENDPOINTS.userById(id), callback, 'GET');
+    },
+    
+    getUserBadges: (id, callback) => {
+        fetchMethod(API_ENDPOINTS.userBadges(id), callback, 'GET');
     },
     
     updateUser: (id, userData, callback) => {

@@ -116,3 +116,24 @@ module.exports.fetchUserById = (id, callback) => {
 
   pool.query(SQLSTATEMENT, VALUES, callback);
 };
+
+// GET USER BADGES
+module.exports.getUserBadges = (userId, callback) => {
+  const SQLSTATEMENT = `
+    SELECT 
+      b.id,
+      b.name,
+      b.vulnerability_id,
+      v.type as vulnerability_type,
+      ub.awarded_at
+    FROM UserBadge ub
+    JOIN Badge b ON ub.badge_id = b.id
+    JOIN Vulnerability v ON b.vulnerability_id = v.id
+    WHERE ub.user_id = ?
+    ORDER BY ub.awarded_at DESC
+  `;
+
+  const VALUES = [userId];
+
+  pool.query(SQLSTATEMENT, VALUES, callback);
+};
