@@ -60,3 +60,42 @@ module.exports.getAllReports = (req, res, next) => {
     model.getAllReports(callback);
 };
 
+// CLOSE REPORT - New endpoint for closing reports
+module.exports.closeReport = (req, res) => {
+    const reportId = req.params.id;
+    const closerId = req.body.closer_id;
+
+    if (!closerId) {
+        return res.status(400).json({ error: "Closer ID is required" });
+    }
+
+    // First check if report exists and is not already closed
+    const checkCallback = (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: "Database error checking report" });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ error: "Report not found" });
+        }
+        if (results[0].status === 1) {
+            return res.status(400).json({ error: "Report is already closed" });
+        }
+
+        // Proceed to close the report
+        const closeCallback = (closeError) => {
+            if (closeError) {
+                return res.status(500).json({ error: "Database error closing report" });
+            }
+            return res.status(200).json({ 
+                message: "Report closed successfully",
+                reportId: reportId,
+                closerId: closerId
+            });
+        };
+
+        model.closeReport(reportId, closerId, closeCallback);
+    };
+
+    model.checkReportId(reportId, checkCallback);
+};
+

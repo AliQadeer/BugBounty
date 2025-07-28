@@ -21,4 +21,5 @@ const checkVulnerabilityExistsUpdateReport = require('../middleware/checkVulnera
 router.get('/', controllers.getAllReports);
 router.post('/', validateuserandvulIDS, controllers.createNewReport,checkVulnerabilityExists,insertReport,updateUserReputationReport,updateRank,getUserReputation,getUserRank);
 router.put('/:id', validateReportID, controllers.updateReport,checkUserExists,getVulIdFromReport,checkVulnerabilityExistsUpdateReport,putById,fetchIdandStatus,updateUserReputationUpdateReport,checkAndAwardBadge);
+router.patch('/:id/close', controllers.closeReport);
 module.exports = router;

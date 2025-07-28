@@ -127,6 +127,8 @@ CREATE TABLE IF NOT EXISTS Report (
   user_id INT,
   vulnerability_id INT,
   status BOOLEAN NOT NULL DEFAULT 0,
+  closer_id INT NULL,
+  closed_at DATETIME NULL,
   CHECK (status IN (0,1))
 );
 

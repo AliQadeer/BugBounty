@@ -46,6 +46,18 @@ module.exports.putById = (status, user_id, id, callback) => {
     pool.query(SQLSTATEMENT,VALUES,callback)
 }
 
+//CLOSING REPORT (New function for closing with closer_id)
+module.exports.closeReport = (id, closer_id, callback) => {
+    const SQLSTATEMENT = `
+    UPDATE Report
+    SET status = 1, closer_id = ?, closed_at = NOW()
+    WHERE id = ? `;
+
+    const VALUES = [closer_id, id]
+
+    pool.query(SQLSTATEMENT,VALUES,callback)
+}
+
 
 //CHECKING IF REPORT ID EXISTS 
 module.exports.checkReportId = (id,callback) => {
@@ -179,12 +191,16 @@ module.exports.getAllReports = (callback) => {
             r.user_id,
             r.vulnerability_id,
             r.status,
-            u.username,
+            r.closer_id,
+            r.closed_at,
+            u.username as reporter_username,
+            closer.username as closer_username,
             v.type,
             v.description,
             v.points
         FROM report r
         JOIN user u ON r.user_id = u.id
+        LEFT JOIN user closer ON r.closer_id = closer.id
         JOIN vulnerability v ON r.vulnerability_id = v.id
         ORDER BY r.id DESC
     `;

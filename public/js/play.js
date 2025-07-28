@@ -124,6 +124,7 @@ function showOpenReportSection() {
 function showCloseReportSection() {
     hideAllSections();
     document.getElementById('closeReportSection').classList.add('active');
+    loadReportsForClosing();
 }
 
 function hideAllSections() {
@@ -440,6 +441,125 @@ function showCloseResults(results) {
         const updatedUser = { ...user, reputation: results.user_reputation };
         setCurrentUser(updatedUser);
     }
+}
+
+// Reports management functions
+function loadReportsForClosing() {
+    const loadingDiv = document.getElementById('loadingReports');
+    const errorDiv = document.getElementById('errorReports');
+    const containerDiv = document.getElementById('reportsListContainer');
+    
+    // Show loading state
+    loadingDiv.style.display = 'block';
+    errorDiv.style.display = 'none';
+    containerDiv.style.display = 'none';
+    
+    fetchMethod('/api/reports', (status, data) => {
+        loadingDiv.style.display = 'none';
+        
+        if (status === 200 && data) {
+            displayReportsForClosing(data);
+        } else {
+            console.error('Error loading reports:', status, data);
+            showReportsError('Failed to load reports: ' + (data?.error || 'Server error'));
+        }
+    }, 'GET');
+}
+
+function displayReportsForClosing(reports) {
+    const containerDiv = document.getElementById('reportsListContainer');
+    const errorDiv = document.getElementById('errorReports');
+    
+    if (!reports || reports.length === 0) {
+        containerDiv.innerHTML = '<div class="no-reports">No reports available</div>';
+        containerDiv.style.display = 'block';
+        return;
+    }
+    
+    const reportsHtml = reports.map(report => `
+        <div class="report-item">
+            <div class="report-header">
+                <span class="report-id">Report #${report.id}</span>
+                <span class="report-status ${report.status ? 'status-closed' : 'status-open'}">
+                    ${report.status ? 'CLOSED' : 'OPEN'}
+                </span>
+            </div>
+            
+            <div class="vulnerability-details">
+                <div class="vulnerability-type">${escapeHtml(report.type)}</div>
+                <div class="vulnerability-description">${escapeHtml(report.description)}</div>
+                <div class="vulnerability-points">Points: ${report.points}</div>
+            </div>
+            
+            <div class="reporter-info">
+                Reported by: <strong>${escapeHtml(report.reporter_username)}</strong>
+            </div>
+            
+            ${report.status ? `
+                <div class="closer-info">
+                    Closed by: <strong>${escapeHtml(report.closer_username || 'Unknown')}</strong>
+                    ${report.closed_at ? `on ${new Date(report.closed_at).toLocaleDateString()}` : ''}
+                </div>
+            ` : `
+                <button class="close-report-btn" onclick="closeReport(${report.id})" id="closeBtn${report.id}">
+                    Close Report
+                </button>
+            `}
+        </div>
+    `).join('');
+    
+    containerDiv.innerHTML = reportsHtml;
+    containerDiv.style.display = 'block';
+    errorDiv.style.display = 'none';
+}
+
+function closeReport(reportId) {
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+        showReportsError('Please log in to close reports');
+        return;
+    }
+    
+    const closeButton = document.getElementById(`closeBtn${reportId}`);
+    if (closeButton) {
+        closeButton.disabled = true;
+        closeButton.textContent = 'Closing...';
+    }
+    
+    fetchMethod(`/api/reports/${reportId}/close`, (status, data) => {
+        if (status === 200 && data) {
+            // Reload reports to show updated status
+            loadReportsForClosing();
+            showCloseSuccess(reportId);
+        } else {
+            console.error('Error closing report:', status, data);
+            showReportsError('Failed to close report: ' + (data?.error || 'Server error'));
+            
+            // Re-enable button on error
+            if (closeButton) {
+                closeButton.disabled = false;
+                closeButton.textContent = 'Close Report';
+            }
+        }
+    }, 'PATCH', {
+        closer_id: currentUser.id
+    });
+}
+
+function showReportsError(message) {
+    const errorDiv = document.getElementById('errorReports');
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+    
+    // Auto-hide error after 5 seconds
+    setTimeout(() => {
+        errorDiv.style.display = 'none';
+    }, 5000);
+}
+
+function showCloseSuccess(reportId) {
+    // You can add a success message here if needed
+    console.log(`Report ${reportId} closed successfully`);
 }
 
 function resetQuizState() {
