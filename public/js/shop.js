@@ -460,15 +460,18 @@ function submitMysteryQuiz() {
     
     console.log('Final score:', quizScore);
     
-    if (quizScore === mysteryQuizData.questions.length) {
-        console.log('Perfect score - showing success');
-        // Perfect score - purchase mystery box and give random item
-        handleMysteryBoxPurchase();
-    } else {
-        console.log('Failed score - showing failure');
-        // Failed quiz - still deduct reputation but no reward
-        handleMysteryBoxFailure();
-    }
+    // FIRST: Always deduct 300 reputation for quiz submission
+    deductQuizCost(() => {
+        if (quizScore === mysteryQuizData.questions.length) {
+            console.log('Perfect score - showing success');
+            // Perfect score - give random item as reward
+            handleMysteryBoxSuccess();
+        } else {
+            console.log('Failed score - showing failure');
+            // Failed quiz - no reward, reputation already deducted
+            handleMysteryBoxFailure();
+        }
+    });
     
     // Reset button after a delay (in case of errors)
     setTimeout(() => {
@@ -477,7 +480,52 @@ function submitMysteryQuiz() {
     }, 10000);
 }
 
-function handleMysteryBoxPurchase() {
+function deductQuizCost(callback) {
+    const user = getCurrentUser();
+    if (!user) return;
+    
+    const quizCost = 300;
+    const newReputation = user.reputation - quizCost;
+    
+    if (newReputation < 0) {
+        document.getElementById('quizError').textContent = 'Insufficient reputation for quiz submission!';
+        document.getElementById('quizError').style.display = 'block';
+        return;
+    }
+    
+    // Get fresh user data from database
+    API.getUserById(user.id, function(userStatus, userData) {
+        if (userStatus === 200 && userData.length > 0) {
+            const currentUserData = userData[0];
+            
+            // Update user reputation in database
+            const updateData = { 
+                username: currentUserData.username,
+                reputation: newReputation 
+            };
+            
+            API.updateUser(user.id, updateData, function(status, data) {
+                if (status === 200) {
+                    // Update local user data
+                    const updatedUser = { ...user, reputation: newReputation };
+                    setCurrentUser(updatedUser);
+                    document.getElementById('userReputation').textContent = newReputation;
+                    
+                    console.log('Quiz cost deducted: 300 reputation');
+                    callback();
+                } else {
+                    document.getElementById('quizError').textContent = 'Error processing quiz cost. Please try again.';
+                    document.getElementById('quizError').style.display = 'block';
+                }
+            });
+        } else {
+            document.getElementById('quizError').textContent = 'Error getting user data. Please try again.';
+            document.getElementById('quizError').style.display = 'block';
+        }
+    });
+}
+
+function handleMysteryBoxSuccess() {
     const user = getCurrentUser();
     if (!user) return;
     
@@ -491,45 +539,30 @@ function handleMysteryBoxPurchase() {
     }
     
     const randomItem = availableItems[Math.floor(Math.random() * availableItems.length)];
-    console.log('Selected random item:', randomItem);
-    console.log('User owned items:', userOwnedItems);
-    console.log('User reputation:', user.reputation);
+    console.log('Selected random item for reward:', randomItem);
     
-    // Check if user has enough reputation to "purchase" the item (we'll refund it immediately)
-    if (user.reputation < randomItem.cost) {
-        // User doesn't have enough reputation for the temporary purchase, so just give them a cheaper item
-        const cheaperItems = availableItems.filter(item => item.cost <= user.reputation);
-        if (cheaperItems.length === 0) {
-            showSuccessPopup(null, 'Perfect score! Congratulations! Unfortunately, your current reputation is too low to process rewards right now.');
-            closeMysteryQuizModal();
-            return;
-        }
-        randomItem = cheaperItems[Math.floor(Math.random() * cheaperItems.length)];
-    }
-    
-    // Give the item for FREE as a reward by using the purchase API and then refunding
+    // Give the item for FREE as a reward using the purchase API (reputation cost already deducted for quiz)
     const purchaseData = {
         user_id: user.id,
         shop_item_id: randomItem.id
     };
     
     API.purchaseItem(purchaseData, function(status, data) {
-        console.log('Purchase API response:', status, data);
+        console.log('Reward item purchase API response:', status, data);
         if (status === 200 || status === 201) {
-            // Item purchased (reputation deducted), now refund the reputation
+            // Item purchased (additional reputation deducted), now refund ONLY the item cost
             API.getUserById(user.id, function(userStatus, userData) {
-                console.log('Get user API response:', userStatus, userData);
                 if (userStatus === 200 && userData.length > 0) {
                     const currentUserData = userData[0];
                     const refundedReputation = currentUserData.reputation + randomItem.cost;
                     
-                    // Refund the item cost
+                    // Refund ONLY the item cost (quiz cost of 300 stays deducted)
                     const refundData = { 
-                        username: user.username,
+                        username: currentUserData.username,
                         reputation: refundedReputation 
                     };
                     API.updateUser(user.id, refundData, function(refundStatus, refundResult) {
-                        console.log('Refund API response:', refundStatus, refundResult);
+                        console.log('Item cost refund API response:', refundStatus, refundResult);
                         if (refundStatus === 200) {
                             // Update local user data
                             const updatedUser = { ...user, reputation: refundedReputation };
@@ -549,67 +582,29 @@ function handleMysteryBoxPurchase() {
                             document.getElementById('quizError').style.display = 'block';
                         }
                     });
+                } else {
+                    document.getElementById('quizError').textContent = 'Error getting updated user data.';
+                    document.getElementById('quizError').style.display = 'block';
                 }
             });
         } else {
-            console.log('Purchase failed, trying different approach...');
-            // If purchase fails, show success but with error message
-            showSuccessPopup(null, 'Unfortunately, we couldn\'t process your reward right now. Please contact support with this quiz result.');
+            console.log('Reward purchase failed');
+            showSuccessPopup(null, 'Perfect score! Unfortunately, we couldn\'t process your reward right now. Please contact support.');
             closeMysteryQuizModal();
         }
     });
 }
 
 function handleMysteryBoxFailure() {
-    const user = getCurrentUser();
-    if (!user) return;
+    // Reputation already deducted in deductQuizCost function
+    // Just show failure popup - no additional reputation deduction needed
+    console.log('Quiz failed - no reward given, 300 reputation already deducted');
     
-    // Deduct exactly 300 reputation as penalty
-    const penaltyAmount = 300;
-    const newReputation = user.reputation - penaltyAmount;
+    // Show failure pop-up
+    showFailurePopup();
     
-    if (newReputation < 0) {
-        document.getElementById('quizError').textContent = 'Insufficient reputation for mystery box penalty!';
-        document.getElementById('quizError').style.display = 'block';
-        return;
-    }
-    
-    // Get fresh user data from database to ensure we have the correct username
-    API.getUserById(user.id, function(userStatus, userData) {
-        console.log('Get user for penalty:', userStatus, userData);
-        if (userStatus === 200 && userData.length > 0) {
-            const currentUserData = userData[0];
-            
-            // Update user reputation in database with fresh username from database
-            const updateData = { 
-                username: currentUserData.username,
-                reputation: newReputation 
-            };
-            console.log('Updating user with data:', updateData);
-            
-            API.updateUser(user.id, updateData, function(status, data) {
-                console.log('Penalty update API response:', status, data);
-                if (status === 200) {
-                    // Update local user data
-                    const updatedUser = { ...user, reputation: newReputation };
-                    setCurrentUser(updatedUser);
-                    document.getElementById('userReputation').textContent = newReputation;
-                    
-                    // Show failure pop-up
-                    showFailurePopup();
-                    
-                    // Close quiz modal immediately
-                    closeMysteryQuizModal();
-                } else {
-                    document.getElementById('quizError').textContent = 'Error processing penalty. Please try again.';
-                    document.getElementById('quizError').style.display = 'block';
-                }
-            });
-        } else {
-            document.getElementById('quizError').textContent = 'Error getting user data. Please try again.';
-            document.getElementById('quizError').style.display = 'block';
-        }
-    });
+    // Close quiz modal immediately
+    closeMysteryQuizModal();
 }
 
 function closeMysteryQuizModal() {
