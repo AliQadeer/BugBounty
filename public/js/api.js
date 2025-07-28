@@ -93,6 +93,8 @@ const API_ENDPOINTS = {
     // Shop
     shop: `${API_BASE_URL}/shop`,
     shopPurchase: `${API_BASE_URL}/shop/purchase`,
+    shopEquip: `${API_BASE_URL}/shop/equip`,
+    shopUnequip: `${API_BASE_URL}/shop/unequip`,
     userInventory: (id) => `${API_BASE_URL}/shop/user/${id}/inventory`,
     
     // Leaderboard
@@ -182,6 +184,13 @@ const API = {
         fetchMethod(API_ENDPOINTS.shopPurchase, callback, 'POST', purchaseData);
     },
     
+    equipItem: (equipData, callback) => {
+        fetchMethod(API_ENDPOINTS.shopEquip, callback, 'PUT', equipData);
+    },
+    
+    unequipItem: (unequipData, callback) => {
+        fetchMethod(API_ENDPOINTS.shopUnequip, callback, 'PUT', unequipData);
+    },
     
     getUserInventory: (userId, callback) => {
         fetchMethod(API_ENDPOINTS.userInventory(userId), callback, 'GET');

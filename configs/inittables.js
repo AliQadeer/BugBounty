@@ -146,7 +146,8 @@ CREATE TABLE UserBadge (
 CREATE TABLE UserShopItems (
   id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT,
-  shop_item_id INT
+  shop_item_id INT,
+  equipped BOOLEAN DEFAULT FALSE
 );
 
 -- -----------------------------

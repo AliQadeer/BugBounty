@@ -60,3 +60,46 @@ module.exports.purchaseShopItem = (req, res, next) => {
 };
 
 
+//equip item
+module.exports.equipShopItem = (req, res, next) => {
+  const userId = req.body.user_id;
+  const shopItemId = req.body.shop_item_id;
+
+  //validate request body
+  if (!userId || !shopItemId) {
+    return res.status(400).json({ error: "Missing required fields!" });
+  }
+
+  const callback = (error, itemResults, fields) => {
+    if (error) return res.status(500).json({ error: "Error checking item" });
+    if (itemResults.length === 0) return res.status(404).json({ error: "Item not found" });
+
+    res.locals.itemtype = itemResults[0].type;
+
+    next();
+  };
+
+  model.getItemDetails(shopItemId, callback);
+};
+
+//unequip item
+module.exports.unequipShopItem = (req, res, next) => {
+  const userId = req.body.user_id;
+  const shopItemId = req.body.shop_item_id;
+
+  //validate request body
+  if (!userId || !shopItemId) {
+    return res.status(400).json({ error: "Missing required fields!" });
+  }
+
+  const callback = (error, userResults, fields) => {
+    if (error) return res.status(500).json({ error: "Database error checking user" });
+    if (userResults.length === 0) return res.status(404).json({ error: "User does not exist" });
+
+    next();
+  };
+
+  modeluser.checkForId(userId, callback);
+};
+
+

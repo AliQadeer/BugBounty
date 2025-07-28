@@ -77,12 +77,13 @@ function displayUserItems(items) {
     }
     
     const html = items.map(item => `
-        <div class="item-slot" onclick="openItemModal(${item.item_id}, '${escapeHtml(item.name)}', '${escapeHtml(item.type)}', false)">
+        <div class="item-slot ${item.equipped ? 'equipped' : ''}" onclick="openItemModal(${item.item_id}, '${escapeHtml(item.name)}', '${escapeHtml(item.type)}', ${item.equipped || false})">
             <img src="../images/${item.asset_url || item.name.toLowerCase().replace(/\s+/g, ' ') + '.png'}" 
                  alt="${escapeHtml(item.name)}" 
                  class="item-image"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
             <div class="empty-slot" style="display: none;">${escapeHtml(item.name)}</div>
+            ${item.equipped ? '<div class="equipped-indicator">EQUIPPED</div>' : ''}
         </div>
     `).join('');
     
@@ -187,12 +188,19 @@ function openItemModal(itemId, itemName, itemType, isEquipped) {
         this.src = '../images/default-item.png';
     };
     
-    // Hide equip buttons since equip functionality is removed
+    // Show/hide equip buttons based on current equipped status
     const equipBtn = document.getElementById('equipItemBtn');
     const unequipBtn = document.getElementById('unequipItemBtn');
     
-    if (equipBtn) equipBtn.style.display = 'none';
-    if (unequipBtn) unequipBtn.style.display = 'none';
+    if (equipBtn && unequipBtn) {
+        if (isEquipped) {
+            equipBtn.style.display = 'none';
+            unequipBtn.style.display = 'inline-block';
+        } else {
+            equipBtn.style.display = 'inline-block';
+            unequipBtn.style.display = 'none';
+        }
+    }
     
     document.getElementById('itemModal').style.display = 'block';
 }
@@ -213,6 +221,85 @@ function setupModalHandlers() {
         }
     });
     
+    // Equip item button
+    const equipBtn = document.getElementById('equipItemBtn');
+    if (equipBtn) {
+        equipBtn.addEventListener('click', equipItem);
+    }
+    
+    // Unequip item button
+    const unequipBtn = document.getElementById('unequipItemBtn');
+    if (unequipBtn) {
+        unequipBtn.addEventListener('click', unequipItem);
+    }
+}
+
+function equipItem() {
+    if (!currentSelectedItem) return;
+    
+    const user = getCurrentUser();
+    if (!user) return;
+    
+    const equipBtn = document.getElementById('equipItemBtn');
+    equipBtn.disabled = true;
+    equipBtn.textContent = 'Equipping...';
+    
+    const equipData = {
+        user_id: user.id,
+        shop_item_id: currentSelectedItem.id
+    };
+    
+    API.equipItem(equipData, function(status, data) {
+        equipBtn.disabled = false;
+        equipBtn.textContent = 'Equip';
+        
+        if (status === 200) {
+            // Success - refresh inventory and close modal
+            document.getElementById('itemModal').style.display = 'none';
+            loadUserInventory(user.id);
+            showSuccess('equipSuccess', `${currentSelectedItem.name} equipped successfully!`);
+        } else {
+            let errorMessage = 'Failed to equip item';
+            if (data && data.error) {
+                errorMessage = data.error;
+            }
+            showError('equipError', errorMessage);
+        }
+    });
+}
+
+function unequipItem() {
+    if (!currentSelectedItem) return;
+    
+    const user = getCurrentUser();
+    if (!user) return;
+    
+    const unequipBtn = document.getElementById('unequipItemBtn');
+    unequipBtn.disabled = true;
+    unequipBtn.textContent = 'Unequipping...';
+    
+    const unequipData = {
+        user_id: user.id,
+        shop_item_id: currentSelectedItem.id
+    };
+    
+    API.unequipItem(unequipData, function(status, data) {
+        unequipBtn.disabled = false;
+        unequipBtn.textContent = 'Unequip';
+        
+        if (status === 200) {
+            // Success - refresh inventory and close modal
+            document.getElementById('itemModal').style.display = 'none';
+            loadUserInventory(user.id);
+            showSuccess('equipSuccess', `${currentSelectedItem.name} unequipped successfully!`);
+        } else {
+            let errorMessage = 'Failed to unequip item';
+            if (data && data.error) {
+                errorMessage = data.error;
+            }
+            showError('equipError', errorMessage);
+        }
+    });
 }
 
 

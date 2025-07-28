@@ -359,6 +359,78 @@
     letter-spacing: 1px;
 }
 
+.modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.action-btn {
+    padding: 0.75rem 2rem;
+    border: 2px solid var(--bronze);
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(61, 41, 20, 0.8), rgba(0, 0, 0, 0.7));
+    color: var(--parchment);
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.action-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    background: linear-gradient(135deg, rgba(61, 41, 20, 0.9), rgba(212, 175, 55, 0.1));
+}
+
+.action-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    border-color: var(--bronze);
+    color: var(--silver);
+}
+
+.equip-btn {
+    border-color: var(--forest-green, #228B22);
+}
+
+.equip-btn:hover {
+    border-color: var(--forest-green, #228B22);
+    color: var(--forest-green, #228B22);
+    box-shadow: 0 0 15px rgba(34, 139, 34, 0.3);
+}
+
+.unequip-btn {
+    border-color: var(--crimson, #DC143C);
+}
+
+.unequip-btn:hover {
+    border-color: var(--crimson, #DC143C);
+    color: var(--crimson, #DC143C);
+    box-shadow: 0 0 15px rgba(220, 20, 60, 0.3);
+}
+
+.equipped-indicator {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    background: rgba(212, 175, 55, 0.9);
+    color: rgba(0, 0, 0, 0.8);
+    font-family: var(--font-medieval);
+    font-size: 0.6rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 1px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 /* Enhanced Responsive Design */
 
 /* Large tablets and small desktops */
