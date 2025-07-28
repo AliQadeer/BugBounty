@@ -13,8 +13,11 @@ module.exports = (req,res,next) => {
             return res.status(500).json({ error: "Database error" });
             } 
 
-        if (results.length > 0) {
-            // Username exists anywhere
+        // Filter out the current user from results
+        const duplicates = results.filter(user => user.id != data.id);
+        
+        if (duplicates.length > 0) {
+            // Username exists for another user
             return res.status(409).send("Error: username already exists");
             }
 
@@ -22,8 +25,4 @@ module.exports = (req,res,next) => {
     }
 
     model.duplicateUsername(data.username,callback)
-
-
-
-
 }

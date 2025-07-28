@@ -36,7 +36,7 @@ ON DUPLICATE KEY UPDATE name=VALUES(name), points_needed=VALUES(points_needed);
 CREATE TABLE ShopItems (
   id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(100) NOT NULL,
-  type ENUM('hat', 'cape', 'gloves', 'mask', 'boots') NOT NULL,
+  type ENUM('hat', 'cape', 'gloves', 'mask', 'boots', 'mystery') NOT NULL,
   asset_url VARCHAR(255) NULL,
   cost INT NOT NULL
 );
@@ -61,7 +61,8 @@ INSERT INTO ShopItems (id, name, type, cost) VALUES
 (17, 'Speed Boots', 'boots', 120),
 (18, 'Shadow Walkers', 'boots', 1200),
 (19, 'Iron Stompers', 'boots', 150),
-(20, 'Lava Boots', 'boots', 200)
+(20, 'Lava Boots', 'boots', 200),
+(21, 'Mystery Quiz Item Box', 'mystery', 300)
 ON DUPLICATE KEY UPDATE name=VALUES(name), type=VALUES(type), cost=VALUES(cost);
 
 -- -----------------------------
@@ -114,8 +115,8 @@ CREATE TABLE User (
 );
 
 INSERT INTO User (id, username, email, password, reputation, rank_id) VALUES
-(1, 'testuser1', 'test1@example.com', '$2a$10$NLTZlKh/o2NHFz0iyo3vC.JzOshLKD9mpSAwKJoq1di21S8vkXE.e', 0, 1),
-(2, 'testuser2', 'test2@example.com', '$2a$10$NLTZlKh/o2NHFz0iyo3vC.JzOshLKD9mpSAwKJoq1di21S8vkXE.e', 150, 2)
+(1, 'testuser1', 'test1@example.com', '$2a$10$NLTZlKh/o2NHFz0iyo3vC.JzOshLKD9mpSAwKJoq1di21S8vkXE.e', 500, 1),
+(2, 'testuser2', 'test2@example.com', '$2a$10$NLTZlKh/o2NHFz0iyo3vC.JzOshLKD9mpSAwKJoq1di21S8vkXE.e', 500, 2)
 ON DUPLICATE KEY UPDATE username=VALUES(username), email=VALUES(email), reputation=VALUES(reputation), rank_id=VALUES(rank_id);
 
 -- -----------------------------

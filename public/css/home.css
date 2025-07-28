@@ -178,7 +178,8 @@
 .fixed-realm-btn {
     position: fixed;
     bottom: 2rem;
-    right: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 1000;
 }
 
@@ -311,7 +312,8 @@
     
     .fixed-realm-btn {
         bottom: 1.5rem;
-        right: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
     }
 }
 
@@ -370,7 +372,8 @@
     
     .fixed-realm-btn {
         bottom: 1rem;
-        right: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
     }
     
     .realm-btn {
@@ -455,7 +458,8 @@
     
     .fixed-realm-btn {
         bottom: 0.75rem;
-        right: 0.75rem;
+        left: 50%;
+        transform: translateX(-50%);
     }
     
     .realm-btn {
@@ -535,7 +539,8 @@
     
     .fixed-realm-btn {
         bottom: 0.5rem;
-        right: 0.5rem;
+        left: 50%;
+        transform: translateX(-50%);
     }
     
     .realm-btn {

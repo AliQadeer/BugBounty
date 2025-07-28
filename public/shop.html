@@ -41,6 +41,7 @@
             <button class="filter-btn" data-filter="gloves">Gloves</button>
             <button class="filter-btn" data-filter="mask">Masks</button>
             <button class="filter-btn" data-filter="boots">Boots</button>
+            <button class="filter-btn" data-filter="mystery">Mystery</button>
         </div>
 
         <div id="shopItems" class="shop-grid">
@@ -70,6 +71,95 @@
             </div>
             <div id="purchaseError" class="error-message"></div>
             <div id="purchaseSuccess" class="success-message"></div>
+        </div>
+    </div>
+
+    <!-- Mystery Box Quiz Modal -->
+    <div id="mysteryQuizModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Mystery Quiz Challenge</h2>
+            <p>Answer all 5 questions correctly to win a random item!</p>
+            
+            <div id="quizProgress" class="quiz-progress">
+                <div class="progress-bar">
+                    <div id="quizProgressFill" class="progress-fill"></div>
+                </div>
+                <div id="quizProgressText">Question 1 of 5</div>
+            </div>
+            
+            <div id="quizQuestion" class="quiz-question">
+                <h3 id="questionText">Question will appear here</h3>
+                <div id="answerOptions" class="answer-options">
+                    <!-- Answer options will be populated here -->
+                </div>
+            </div>
+            
+            <div class="quiz-actions">
+                <button id="nextQuestionBtn" class="action-btn" disabled>Next Question</button>
+                <button id="submitQuizBtn" class="action-btn" style="display: none;" disabled>Submit Quiz</button>
+            </div>
+            
+            <div id="quizError" class="error-message"></div>
+            <div id="quizSuccess" class="success-message"></div>
+        </div>
+    </div>
+
+    <!-- Mystery Box Success Pop-up -->
+    <div id="mysterySuccessPopup" class="modal">
+        <div class="modal-content success-modal">
+            <span class="close">&times;</span>
+            <div class="success-content">
+                <div class="success-icon">🎉</div>
+                <h2>CONGRATULATIONS!</h2>
+                <div class="success-badge">Perfect Score!</div>
+                
+                <div class="reward-showcase">
+                    <div class="reward-text">You won:</div>
+                    <div class="reward-item">
+                        <div class="reward-image-container">
+                            <img id="rewardItemImage" src="" alt="Reward Item" class="reward-image">
+                        </div>
+                        <div class="reward-details">
+                            <div id="rewardItemName" class="reward-name">Item Name</div>
+                            <div id="rewardItemType" class="reward-type">Item Type</div>
+                            <div id="rewardItemValue" class="reward-value">Worth: 0 reputation</div>
+                        </div>
+                    </div>
+                    <div class="reward-free-badge">✨ COMPLETELY FREE! ✨</div>
+                </div>
+                
+                <div id="successMessage" class="success-message">
+                    <!-- Additional success message will be populated here -->
+                </div>
+                
+                <div class="profile-reminder">
+                    <strong>Check your profile to see your new item!</strong>
+                </div>
+                
+                <div class="success-actions">
+                    <button id="successOkBtn" class="action-btn success-btn">Awesome!</button>
+                    <button id="checkProfileBtn" class="action-btn profile-btn">View Profile</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mystery Box Failure Pop-up -->
+    <div id="mysteryFailurePopup" class="modal">
+        <div class="modal-content failure-modal">
+            <span class="close">&times;</span>
+            <div class="failure-content">
+                <div class="failure-icon">❌</div>
+                <h2>QUIZ FAILED</h2>
+                <div class="failure-badge">Better Luck Next Time!</div>
+                <div id="failureMessage" class="failure-message">
+                    <!-- Failure message will be populated here -->
+                </div>
+                <div class="failure-actions">
+                    <button id="failureOkBtn" class="action-btn failure-btn">Try Again</button>
+                </div>
+            </div>
         </div>
     </div>
 
