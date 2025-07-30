@@ -1,10 +1,10 @@
 const model = require("../model/reportmodel.js");
 // CREATE NEW REPORT
 module.exports.createNewReport = (req, res, next) => {
-    const { user_id, vulnerability_id } = req.body;
+    const { user_id, vulnerability_id, solution } = req.body;
 
-    if(!user_id || !vulnerability_id) {
-        return res.status(400).json({error: "Please provide required fields"});
+    if(!user_id || !vulnerability_id || !solution) {
+        return res.status(400).json({error: "Please provide required fields (user_id, vulnerability_id, solution)"});
     }
 
     const callback = (error, results, fields) => {

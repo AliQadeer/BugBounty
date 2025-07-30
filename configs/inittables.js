@@ -129,6 +129,7 @@ CREATE TABLE IF NOT EXISTS Report (
   status BOOLEAN NOT NULL DEFAULT 0,
   closer_id INT NULL,
   closed_at DATETIME NULL,
+  solution TEXT NULL,
   CHECK (status IN (0,1))
 );
 
@@ -153,23 +154,20 @@ CREATE TABLE UserShopItems (
 );
 
 -- -----------------------------
--- REVIEWS TABLE (CA2 Feature)
+-- SOLUTION REVIEWS TABLE
 -- -----------------------------
-CREATE TABLE reviews (
+CREATE TABLE solution_reviews (
   id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT NOT NULL,
+  report_id INT NOT NULL,
   rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
   comment TEXT NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
+  FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE,
+  FOREIGN KEY (report_id) REFERENCES Report(id) ON DELETE CASCADE,
+  UNIQUE KEY unique_user_report (user_id, report_id)
 );
-
--- Add sample reviews
-INSERT INTO reviews (user_id, rating, comment) VALUES
-(1, 5, 'Amazing platform! Love the gamification features and the ranking system.'),
-(2, 4, 'Great bug bounty system. The shop items are really cool and motivating.')
-ON DUPLICATE KEY UPDATE rating=VALUES(rating), comment=VALUES(comment);
 `;
 
 db.query(schema, (err, results) => {

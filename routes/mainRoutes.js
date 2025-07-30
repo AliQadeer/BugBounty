@@ -8,6 +8,7 @@ const ranksRoutes = require('./ranks');
 const shopRoutes = require('./shop');
 const leaderboardRoutes = require('./leaderboard');
 const reviewRoutes = require('./reviews');
+const solutionReviewRoutes = require('./solutionReviews');
 
 
 router.use('/users', userRoutes);
@@ -17,5 +18,6 @@ router.use('/ranks', ranksRoutes);
 router.use('/shop', shopRoutes);
 router.use('/leaderboard',leaderboardRoutes);
 router.use('/reviews', reviewRoutes);
+router.use('/solution-reviews', solutionReviewRoutes);
 
 module.exports = router;

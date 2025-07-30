@@ -152,6 +152,73 @@
                 opacity: 0;
             }
         }
+
+        .solution-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .vulnerability-info {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .vulnerability-info h3 {
+            color: #ffd700;
+            margin: 0 0 10px 0;
+            font-size: 20px;
+        }
+
+        .vulnerability-info p {
+            color: #ccc;
+            margin: 0 0 10px 0;
+            line-height: 1.4;
+        }
+
+        .solution-form {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .solution-form label {
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .solution-form textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #666;
+            border-radius: 6px;
+            color: #fff;
+            padding: 15px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .solution-form textarea:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .solution-actions {
+            margin-top: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body class="play-body">
@@ -206,43 +273,39 @@
             </div>
         </div>
 
-        <!-- Quiz Section -->
-        <div id="quizSection" class="play-section">
+        <!-- Solution Section -->
+        <div id="solutionSection" class="play-section">
             <div class="section-header">
-                <h2 id="quizTitle">Vulnerability Quiz</h2>
+                <h2 id="solutionTitle">Submit Your Solution</h2>
                 <button class="back-btn" onclick="showOpenReportSection()">← Back</button>
             </div>
             
-            <div class="quiz-container">
-                <div class="quiz-progress">
-                    <div class="progress-bar">
-                        <div id="quizProgressFill" class="progress-fill"></div>
-                    </div>
-                    <span id="quizProgressText">Question 1 of 5</span>
+            <div class="solution-container">
+                <div class="vulnerability-info">
+                    <h3 id="selectedVulnType"></h3>
+                    <p id="selectedVulnDescription"></p>
+                    <div class="vulnerability-points">Points: <span id="selectedVulnPoints"></span></div>
                 </div>
                 
-                <div id="quizContent" class="quiz-content">
-                    <div id="questionText" class="question-text"></div>
-                    <div id="answerOptions" class="answer-options">
-                        <!-- Answer options will be loaded here -->
+                <div class="solution-form">
+                    <label for="solutionText">Your Solution:</label>
+                    <textarea id="solutionText" placeholder="Describe your solution for this vulnerability..." rows="8" required></textarea>
+                    
+                    <div class="solution-actions">
+                        <button id="submitSolutionBtn" class="action-btn primary">Submit Report</button>
                     </div>
-                </div>
-                
-                <div class="quiz-actions">
-                    <button id="nextQuestionBtn" class="action-btn" disabled>Next Question</button>
-                    <button id="submitQuizBtn" class="action-btn primary" style="display: none;">Submit Quiz</button>
                 </div>
             </div>
         </div>
 
-        <!-- Quiz Results -->
-        <div id="quizResults" class="play-section">
+        <!-- Solution Results -->
+        <div id="solutionResults" class="play-section">
             <div class="results-container">
-                <h2>Quiz Complete!</h2>
+                <h2>Report Submitted!</h2>
                 <div id="resultsContent" class="results-content">
                     <!-- Results will be displayed here -->
                 </div>
-                <button id="newQuizBtn" class="action-btn">Take Another Quiz</button>
+                <button id="newReportBtn" class="action-btn">Submit Another Report</button>
             </div>
         </div>
 

@@ -10,12 +10,12 @@ module.exports.checkVulnerabilityExists = (vulnerability_id, callback) => {
     pool.query("SELECT * FROM Vulnerability WHERE id = ?", [vulnerability_id], callback);
 };
 
-// Insert report
-module.exports.insertReport = (user_id,vulnerability_id, callback) => {
+// Insert report with solution
+module.exports.insertReport = (user_id, vulnerability_id, solution, callback) => {
     const SQLSTATEMENT = `
-    INSERT INTO Report (user_id, vulnerability_id, status) 
-    VALUES (?, ?, 0)`;
-    const VALUES = [user_id, vulnerability_id];
+    INSERT INTO Report (user_id, vulnerability_id, status, solution) 
+    VALUES (?, ?, 0, ?)`;
+    const VALUES = [user_id, vulnerability_id, solution];
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 
@@ -205,6 +205,7 @@ module.exports.getAllReports = (callback) => {
             r.status,
             r.closer_id,
             r.closed_at,
+            r.solution,
             u.username as reporter_username,
             closer.username as closer_username,
             v.type,

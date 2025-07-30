@@ -87,8 +87,10 @@ module.exports = (req, res, next) => {
   function sendResponse() {
     res.status(200).json({
       message: "Report closed successfully",
-      reportId: reportId,
-      closerId: closer_id,
+      id: reportId,
+      status: 1,
+      closer_id: closer_id,
+      user_reputation: res.locals.user_reputation || 0,
       badge_awarded: awardedBadgeName
     });
   }

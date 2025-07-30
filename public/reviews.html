@@ -26,59 +26,65 @@
 
     <main class="reviews-content">
         <div class="reviews-header">
-            <h1>Platform Reviews</h1>
-            <p>Share your experience and read what other hunters think</p>
+            <h1>Solutions Reviews</h1>
+            <p>Review and rate solutions submitted by bug hunters</p>
         </div>
 
-        <!-- Add Review Section -->
-        <div class="add-review-section">
-            <h2>Write a Review</h2>
-            <form id="reviewForm" class="review-form">
+        <!-- Solutions Display -->
+        <div class="solutions-display">
+            <div class="solutions-tabs">
+                <button id="allSolutionsTab" class="tab-btn active">All Solutions</button>
+                <button id="mySolutionsTab" class="tab-btn">My Solutions</button>
+            </div>
+
+            <div id="allSolutions" class="solutions-list active">
+                <h3>All Closed Reports with Solutions</h3>
+                <div id="allSolutionsList" class="solutions-container">
+                    <!-- All solutions will be loaded here -->
+                </div>
+            </div>
+
+            <div id="mySolutions" class="solutions-list">
+                <h3>My Solutions</h3>
+                <div id="mySolutionsList" class="solutions-container">
+                    <!-- User's solutions will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Review Modal -->
+    <div id="addReviewModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Review Solution</h2>
+            <form id="addReviewForm">
                 <div class="rating-input">
                     <label>Rating:</label>
-                    <div class="star-rating">
+                    <div class="star-rating add-stars">
                         <span class="star" data-rating="1">★</span>
                         <span class="star" data-rating="2">★</span>
                         <span class="star" data-rating="3">★</span>
                         <span class="star" data-rating="4">★</span>
                         <span class="star" data-rating="5">★</span>
                     </div>
-                    <input type="hidden" id="ratingValue" value="0">
+                    <input type="hidden" id="addRatingValue" value="0">
+                    <input type="hidden" id="addReportId" value="">
                 </div>
                 
                 <div class="comment-input">
-                    <label for="reviewComment">Your Review:</label>
-                    <textarea id="reviewComment" name="comment" placeholder="Share your thoughts about the platform..." rows="4" required></textarea>
+                    <label for="addComment">Your Review:</label>
+                    <textarea id="addComment" name="comment" placeholder="Share your thoughts about this solution..." rows="4" required></textarea>
                 </div>
                 
-                <button type="submit" class="submit-btn">Submit Review</button>
-                <div id="reviewError" class="error-message"></div>
-                <div id="reviewSuccess" class="success-message"></div>
+                <div class="modal-actions">
+                    <button type="submit" class="action-btn">Submit Review</button>
+                    <button type="button" class="action-btn secondary" id="cancelAdd">Cancel</button>
+                </div>
+                <div id="addError" class="error-message"></div>
             </form>
         </div>
-
-        <!-- Reviews Display -->
-        <div class="reviews-display">
-            <div class="reviews-tabs">
-                <button id="allReviewsTab" class="tab-btn active">All Reviews</button>
-                <button id="myReviewsTab" class="tab-btn">My Reviews</button>
-            </div>
-
-            <div id="allReviews" class="reviews-list active">
-                <h3>All Reviews</h3>
-                <div id="allReviewsList" class="reviews-container">
-                    <!-- All reviews will be loaded here -->
-                </div>
-            </div>
-
-            <div id="myReviews" class="reviews-list">
-                <h3>My Reviews</h3>
-                <div id="myReviewsList" class="reviews-container">
-                    <!-- User's reviews will be loaded here -->
-                </div>
-            </div>
-        </div>
-    </main>
+    </div>
 
     <!-- Edit Review Modal -->
     <div id="editModal" class="modal">
@@ -96,6 +102,7 @@
                         <span class="star" data-rating="5">★</span>
                     </div>
                     <input type="hidden" id="editRatingValue" value="0">
+                    <input type="hidden" id="editReviewId" value="">
                 </div>
                 
                 <div class="comment-input">

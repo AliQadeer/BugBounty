@@ -44,7 +44,7 @@
     line-height: 1.4;
 }
 
-.add-review-section {
+.solutions-display, .add-review-section {
     background: linear-gradient(135deg, rgba(61, 41, 20, 0.8), rgba(0, 0, 0, 0.7));
     padding: 2rem;
     border-radius: 15px;
@@ -154,7 +154,7 @@
     border-color: #3457c4;
 }
 
-.reviews-display {
+.solutions-display {
     background: linear-gradient(135deg, rgba(61, 41, 20, 0.8), rgba(0, 0, 0, 0.7));
     padding: 2rem;
     border-radius: 15px;
@@ -163,7 +163,7 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-.reviews-tabs {
+.solutions-tabs {
     display: flex;
     gap: 1rem;
     margin-bottom: 2rem;
@@ -193,11 +193,11 @@
     text-shadow: 0 0 10px var(--royal-blue);
 }
 
-.reviews-list {
+.solutions-list {
     display: none;
 }
 
-.reviews-list.active {
+.solutions-list.active {
     display: block;
     animation: fadeIn 0.3s ease;
 }
@@ -748,4 +748,174 @@
     .review-item {
         padding: 0.75rem;
     }
+}
+
+/* Solution-specific styles */
+.solutions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.solution-item {
+    background: rgba(61, 41, 20, 0.6);
+    border: 2px solid var(--bronze);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.solution-item:hover {
+    border-color: var(--royal-blue);
+    box-shadow: 0 5px 20px rgba(65, 105, 225, 0.3);
+}
+
+.solution-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.vulnerability-info h4 {
+    color: var(--royal-blue);
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.vulnerability-desc {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+    font-size: 1rem;
+    margin: 0 0 0.75rem 0;
+    line-height: 1.4;
+}
+
+.solution-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: var(--silver);
+    font-family: var(--font-english);
+}
+
+.solution-meta .points {
+    color: var(--gold);
+    font-weight: bold;
+}
+
+.solution-meta .reporter,
+.solution-meta .closer {
+    color: var(--royal-blue);
+}
+
+.rating-info {
+    text-align: right;
+    min-width: 120px;
+}
+
+.avg-rating {
+    color: var(--gold);
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.review-count {
+    color: var(--silver);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.solution-content {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border-left: 4px solid var(--bronze);
+}
+
+.solution-content h5 {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-size: 1.1rem;
+    margin: 0 0 0.75rem 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.solution-text {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+    line-height: 1.6;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.solution-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.action-btn {
+    background: rgba(61, 41, 20, 0.6);
+    border: 2px solid var(--bronze);
+    color: var(--parchment);
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: var(--font-medieval);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.action-btn:hover {
+    background: rgba(65, 105, 225, 0.2);
+    border-color: var(--royal-blue);
+    color: var(--royal-blue);
+    box-shadow: 0 0 15px rgba(65, 105, 225, 0.3);
+    transform: translateY(-2px);
+}
+
+.action-btn.primary {
+    background: linear-gradient(45deg, var(--royal-blue), #3457c4);
+    border-color: var(--royal-blue);
+    color: var(--parchment);
+}
+
+.action-btn.primary:hover {
+    background: linear-gradient(45deg, #3457c4, var(--royal-blue));
+    border-color: #3457c4;
+    color: var(--parchment);
+    box-shadow: 0 0 20px rgba(65, 105, 225, 0.5);
+}
+
+.solution-reviews {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--bronze);
+}
+
+.empty-solutions,
+.loading-solutions {
+    text-align: center;
+    color: var(--silver);
+    font-family: var(--font-garamond);
+    font-size: 1.2rem;
+    padding: 3rem;
+    background: rgba(61, 41, 20, 0.4);
+    border-radius: 10px;
+    border: 2px dashed var(--bronze);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
 }

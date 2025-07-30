@@ -1,70 +1,62 @@
 document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
-    loadAllReviews();
+    loadAllSolutions();
 });
 
 let selectedRating = 0;
 let editingReviewId = null;
 let deletingReviewId = null;
+let currentReportId = null;
 
 function setupEventListeners() {
-    // Star rating for new review
-    setupStarRating('.star-rating:not(.edit-stars)');
-    
-    // Star rating for edit modal
-    setupStarRating('.edit-stars');
-    
-    // Review form submission
-    document.getElementById('reviewForm').addEventListener('submit', handleReviewSubmit);
-    
-    // Edit review form submission
-    document.getElementById('editReviewForm').addEventListener('submit', handleEditReviewSubmit);
-    
     // Tab switching
-    document.getElementById('allReviewsTab').addEventListener('click', () => switchTab('all'));
-    document.getElementById('myReviewsTab').addEventListener('click', () => switchTab('my'));
+    document.getElementById('allSolutionsTab').addEventListener('click', () => switchTab('all'));
+    document.getElementById('mySolutionsTab').addEventListener('click', () => switchTab('my'));
     
     // Modal handlers
     setupModalHandlers();
     
+    // Star rating for add review modal
+    setupStarRating('.add-stars', 'addRatingValue');
+    
+    // Star rating for edit modal
+    setupStarRating('.edit-stars', 'editRatingValue');
+    
+    // Form submissions
+    document.getElementById('addReviewForm').addEventListener('submit', handleAddReviewSubmit);
+    document.getElementById('editReviewForm').addEventListener('submit', handleEditReviewSubmit);
+    
     // Delete confirmation
     document.getElementById('confirmDeleteBtn').addEventListener('click', handleDeleteConfirm);
     document.getElementById('cancelDeleteBtn').addEventListener('click', closeDeleteModal);
+    
+    // Cancel buttons
+    document.getElementById('cancelAdd').addEventListener('click', closeAddReviewModal);
+    document.getElementById('cancelEdit').addEventListener('click', closeEditModal);
 }
 
-function setupStarRating(selector) {
-    const starContainers = document.querySelectorAll(selector);
+function setupStarRating(selector, inputId) {
+    const starContainer = document.querySelector(selector);
+    if (!starContainer) return;
     
-    starContainers.forEach(container => {
-        const stars = container.querySelectorAll('.star');
-        const isEditStars = container.classList.contains('edit-stars');
-        
-        stars.forEach(star => {
-            star.addEventListener('click', function() {
-                const rating = parseInt(this.dataset.rating);
-                
-                if (isEditStars) {
-                    document.getElementById('editRatingValue').value = rating;
-                    updateStarDisplay(container, rating);
-                } else {
-                    selectedRating = rating;
-                    document.getElementById('ratingValue').value = rating;
-                    updateStarDisplay(container, rating);
-                }
-            });
-            
-            star.addEventListener('mouseenter', function() {
-                const rating = parseInt(this.dataset.rating);
-                updateStarDisplay(container, rating);
-            });
+    const stars = starContainer.querySelectorAll('.star');
+    
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            const rating = parseInt(this.dataset.rating);
+            document.getElementById(inputId).value = rating;
+            updateStarDisplay(starContainer, rating);
         });
         
-        container.addEventListener('mouseleave', function() {
-            const currentRating = isEditStars ? 
-                parseInt(document.getElementById('editRatingValue').value) : 
-                selectedRating;
-            updateStarDisplay(container, currentRating);
+        star.addEventListener('mouseenter', function() {
+            const rating = parseInt(this.dataset.rating);
+            updateStarDisplay(starContainer, rating);
         });
+    });
+    
+    starContainer.addEventListener('mouseleave', function() {
+        const currentRating = parseInt(document.getElementById(inputId).value) || 0;
+        updateStarDisplay(starContainer, currentRating);
     });
 }
 
@@ -79,151 +71,146 @@ function updateStarDisplay(container, rating) {
     });
 }
 
-function handleReviewSubmit(e) {
-    e.preventDefault();
-    
-    const rating = parseInt(document.getElementById('ratingValue').value);
-    const comment = document.getElementById('reviewComment').value.trim();
-    
-    if (rating === 0) {
-        showError('reviewError', 'Please select a rating');
-        return;
-    }
-    
-    if (!comment) {
-        showError('reviewError', 'Please enter a review comment');
-        return;
-    }
-    
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitting...';
-    
-    API.createReview({ rating, comment }, function(status, data) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Review';
-        
-        if (status === 201) {
-            showSuccess('reviewSuccess', 'Review submitted successfully!');
-            
-            // Reset form
-            document.getElementById('reviewForm').reset();
-            selectedRating = 0;
-            document.getElementById('ratingValue').value = 0;
-            updateStarDisplay(document.querySelector('.star-rating:not(.edit-stars)'), 0);
-            
-            // Reload reviews
-            loadAllReviews();
-            
-            // Switch to all reviews tab to show the new review
-            switchTab('all');
-        } else {
-            let errorMessage = 'Failed to submit review';
-            if (data.error) {
-                errorMessage = data.error;
-            }
-            showError('reviewError', errorMessage);
-        }
-    });
-}
-
-function handleEditReviewSubmit(e) {
-    e.preventDefault();
-    
-    const rating = parseInt(document.getElementById('editRatingValue').value);
-    const comment = document.getElementById('editComment').value.trim();
-    
-    if (rating === 0) {
-        showError('editError', 'Please select a rating');
-        return;
-    }
-    
-    if (!comment) {
-        showError('editError', 'Please enter a review comment');
-        return;
-    }
-    
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Updating...';
-    
-    API.updateReview(editingReviewId, { rating, comment }, function(status, data) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Update Review';
-        
-        if (status === 200) {
-            closeEditModal();
-            loadAllReviews();
-            if (document.getElementById('myReviewsTab').classList.contains('active')) {
-                loadMyReviews();
-            }
-        } else {
-            let errorMessage = 'Failed to update review';
-            if (data.error) {
-                errorMessage = data.error;
-            }
-            showError('editError', errorMessage);
-        }
-    });
-}
-
 function switchTab(tab) {
-    const allTab = document.getElementById('allReviewsTab');
-    const myTab = document.getElementById('myReviewsTab');
-    const allReviews = document.getElementById('allReviews');
-    const myReviews = document.getElementById('myReviews');
+    const allTab = document.getElementById('allSolutionsTab');
+    const myTab = document.getElementById('mySolutionsTab');
+    const allSolutions = document.getElementById('allSolutions');
+    const mySolutions = document.getElementById('mySolutions');
     
     if (tab === 'all') {
         allTab.classList.add('active');
         myTab.classList.remove('active');
-        allReviews.classList.add('active');
-        myReviews.classList.remove('active');
-        loadAllReviews();
+        allSolutions.classList.add('active');
+        mySolutions.classList.remove('active');
+        loadAllSolutions();
     } else {
         myTab.classList.add('active');
         allTab.classList.remove('active');
-        myReviews.classList.add('active');
-        allReviews.classList.remove('active');
-        loadMyReviews();
+        mySolutions.classList.add('active');
+        allSolutions.classList.remove('active');
+        loadMySolutions();
     }
 }
 
-function loadAllReviews() {
-    const container = document.getElementById('allReviewsList');
-    container.innerHTML = '<div class="loading-reviews">Loading reviews...</div>';
+function loadAllSolutions() {
+    const container = document.getElementById('allSolutionsList');
+    container.innerHTML = '<div class="loading-solutions">Loading solutions...</div>';
     
-    API.getReviews(function(status, data) {
+    fetchMethod('/api/solution-reviews/solutions', (status, data) => {
         if (status === 200) {
-            displayReviews(data, container, false);
+            displaySolutions(data, container, false);
         } else {
-            container.innerHTML = '<div class="empty-reviews">Failed to load reviews</div>';
+            container.innerHTML = '<div class="empty-solutions">Failed to load solutions</div>';
         }
-    });
+    }, 'GET');
 }
 
-function loadMyReviews() {
-    const container = document.getElementById('myReviewsList');
-    container.innerHTML = '<div class="loading-reviews">Loading your reviews...</div>';
+function loadMySolutions() {
+    const container = document.getElementById('mySolutionsList');
+    container.innerHTML = '<div class="loading-solutions">Loading your solutions...</div>';
     
-    API.getMyReviews(function(status, data) {
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+        container.innerHTML = '<div class="empty-solutions">Please log in to view your solutions</div>';
+        return;
+    }
+    
+    fetchMethod('/api/solution-reviews/solutions', (status, data) => {
         if (status === 200) {
-            displayReviews(data, container, true);
+            // Filter solutions by current user
+            const mySolutions = data.filter(solution => solution.user_id === currentUser.id);
+            displaySolutions(mySolutions, container, true);
         } else {
-            container.innerHTML = '<div class="empty-reviews">Failed to load your reviews</div>';
+            container.innerHTML = '<div class="empty-solutions">Failed to load your solutions</div>';
         }
-    });
+    }, 'GET');
 }
 
-function displayReviews(reviews, container, showActions = false) {
+function displaySolutions(solutions, container, isMyTab = false) {
+    if (solutions.length === 0) {
+        container.innerHTML = '<div class="empty-solutions">No solutions found</div>';
+        return;
+    }
+    
+    const currentUser = getCurrentUser();
+    
+    const html = solutions.map(solution => {
+        const avgRating = solution.avg_rating ? parseFloat(solution.avg_rating).toFixed(1) : 'No ratings';
+        const reviewCount = solution.review_count || 0;
+        
+        return `
+            <div class="solution-item">
+                <div class="solution-header">
+                    <div class="vulnerability-info">
+                        <h4>${escapeHtml(solution.type)}</h4>
+                        <p class="vulnerability-desc">${escapeHtml(solution.description)}</p>
+                        <div class="solution-meta">
+                            <span class="points">Points: ${solution.points}</span>
+                            <span class="reporter">By: ${escapeHtml(solution.reporter_username)}</span>
+                            ${solution.closer_username ? `<span class="closer">Closed by: ${escapeHtml(solution.closer_username)}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="rating-info">
+                        <div class="avg-rating">
+                            ${typeof avgRating === 'string' ? avgRating : `${generateStarRating(Math.round(avgRating))} (${avgRating})`}
+                        </div>
+                        <div class="review-count">${reviewCount} review${reviewCount !== 1 ? 's' : ''}</div>
+                    </div>
+                </div>
+                
+                <div class="solution-content">
+                    <h5>Solution:</h5>
+                    <p class="solution-text">${escapeHtml(solution.solution)}</p>
+                </div>
+                
+                <div class="solution-actions">
+                    <button class="action-btn" onclick="loadSolutionReviews(${solution.id})">View Reviews</button>
+                    ${currentUser && currentUser.id !== solution.user_id ? 
+                        `<button class="action-btn primary" onclick="openAddReviewModal(${solution.id})">Add Review</button>` 
+                        : ''}
+                </div>
+                
+                <div id="reviews-${solution.id}" class="solution-reviews" style="display: none;">
+                    <!-- Reviews will be loaded here -->
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    container.innerHTML = html;
+}
+
+function loadSolutionReviews(reportId) {
+    const reviewsContainer = document.getElementById(`reviews-${reportId}`);
+    const isVisible = reviewsContainer.style.display !== 'none';
+    
+    if (isVisible) {
+        reviewsContainer.style.display = 'none';
+        return;
+    }
+    
+    reviewsContainer.innerHTML = '<div class="loading-reviews">Loading reviews...</div>';
+    reviewsContainer.style.display = 'block';
+    
+    fetchMethod(`/api/solution-reviews/report/${reportId}`, (status, data) => {
+        if (status === 200) {
+            displaySolutionReviews(data, reviewsContainer, reportId);
+        } else {
+            reviewsContainer.innerHTML = '<div class="empty-reviews">Failed to load reviews</div>';
+        }
+    }, 'GET');
+}
+
+function displaySolutionReviews(reviews, container, reportId) {
     if (reviews.length === 0) {
-        container.innerHTML = '<div class="empty-reviews">No reviews found</div>';
+        container.innerHTML = '<div class="empty-reviews">No reviews yet for this solution.</div>';
         return;
     }
     
     const currentUser = getCurrentUser();
     
     const html = reviews.map(review => {
-        const canEdit = showActions || (currentUser && review.username === currentUser.username);
+        const canEdit = currentUser && review.user_id === currentUser.id;
         
         return `
             <div class="review-item">
@@ -250,16 +237,69 @@ function displayReviews(reviews, container, showActions = false) {
     container.innerHTML = html;
 }
 
-function generateStarRating(rating) {
-    let stars = '';
-    for (let i = 1; i <= 5; i++) {
-        if (i <= rating) {
-            stars += '<span class="star">★</span>';
-        } else {
-            stars += '<span class="star empty">★</span>';
-        }
+function openAddReviewModal(reportId) {
+    currentReportId = reportId;
+    document.getElementById('addReportId').value = reportId;
+    document.getElementById('addRatingValue').value = 0;
+    document.getElementById('addComment').value = '';
+    updateStarDisplay(document.querySelector('.add-stars'), 0);
+    document.getElementById('addReviewModal').style.display = 'block';
+}
+
+function closeAddReviewModal() {
+    document.getElementById('addReviewModal').style.display = 'none';
+    currentReportId = null;
+    clearError('addError');
+}
+
+function handleAddReviewSubmit(e) {
+    e.preventDefault();
+    
+    const rating = parseInt(document.getElementById('addRatingValue').value);
+    const comment = document.getElementById('addComment').value.trim();
+    const reportId = document.getElementById('addReportId').value;
+    
+    if (rating === 0) {
+        showError('addError', 'Please select a rating');
+        return;
     }
-    return stars;
+    
+    if (!comment) {
+        showError('addError', 'Please enter a review comment');
+        return;
+    }
+    
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+    
+    const reviewData = {
+        report_id: reportId,
+        rating: rating,
+        comment: comment
+    };
+    
+    const token = getToken();
+    fetchMethod('/api/solution-reviews', (status, data) => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Review';
+        
+        if (status === 201) {
+            closeAddReviewModal();
+            loadAllSolutions(); // Refresh the solutions to update avg ratings
+            // Also refresh reviews if they're currently displayed
+            const reviewsContainer = document.getElementById(`reviews-${reportId}`);
+            if (reviewsContainer.style.display !== 'none') {
+                loadSolutionReviews(reportId);
+            }
+        } else {
+            let errorMessage = 'Failed to submit review';
+            if (data.error) {
+                errorMessage = data.error;
+            }
+            showError('addError', errorMessage);
+        }
+    }, 'POST', reviewData, token);
 }
 
 function openEditModal(reviewId, rating, comment) {
@@ -277,12 +317,50 @@ function openEditModal(reviewId, rating, comment) {
 function closeEditModal() {
     document.getElementById('editModal').style.display = 'none';
     editingReviewId = null;
+    clearError('editError');
+}
+
+function handleEditReviewSubmit(e) {
+    e.preventDefault();
     
-    // Clear error messages
-    const errorElement = document.getElementById('editError');
-    if (errorElement) {
-        errorElement.style.display = 'none';
+    const rating = parseInt(document.getElementById('editRatingValue').value);
+    const comment = document.getElementById('editComment').value.trim();
+    
+    if (rating === 0) {
+        showError('editError', 'Please select a rating');
+        return;
     }
+    
+    if (!comment) {
+        showError('editError', 'Please enter a review comment');
+        return;
+    }
+    
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Updating...';
+    
+    const reviewData = {
+        rating: rating,
+        comment: comment
+    };
+    
+    const token = getToken();
+    fetchMethod(`/api/solution-reviews/${editingReviewId}`, (status, data) => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Update Review';
+        
+        if (status === 200) {
+            closeEditModal();
+            loadAllSolutions(); // Refresh to update ratings
+        } else {
+            let errorMessage = 'Failed to update review';
+            if (data.error) {
+                errorMessage = data.error;
+            }
+            showError('editError', errorMessage);
+        }
+    }, 'PUT', reviewData, token);
 }
 
 function openDeleteModal(reviewId) {
@@ -293,6 +371,7 @@ function openDeleteModal(reviewId) {
 function closeDeleteModal() {
     document.getElementById('deleteModal').style.display = 'none';
     deletingReviewId = null;
+    clearError('deleteError');
 }
 
 function handleDeleteConfirm() {
@@ -302,16 +381,14 @@ function handleDeleteConfirm() {
     confirmBtn.disabled = true;
     confirmBtn.textContent = 'Deleting...';
     
-    API.deleteReview(deletingReviewId, function(status, data) {
+    const token = getToken();
+    fetchMethod(`/api/solution-reviews/${deletingReviewId}`, (status, data) => {
         confirmBtn.disabled = false;
         confirmBtn.textContent = 'Delete';
         
         if (status === 200) {
             closeDeleteModal();
-            loadAllReviews();
-            if (document.getElementById('myReviewsTab').classList.contains('active')) {
-                loadMyReviews();
-            }
+            loadAllSolutions(); // Refresh to update ratings
         } else {
             let errorMessage = 'Failed to delete review';
             if (data.error) {
@@ -319,7 +396,19 @@ function handleDeleteConfirm() {
             }
             showError('deleteError', errorMessage);
         }
-    });
+    }, 'DELETE', null, token);
+}
+
+function generateStarRating(rating) {
+    let stars = '';
+    for (let i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            stars += '<span class="star active">★</span>';
+        } else {
+            stars += '<span class="star">★</span>';
+        }
+    }
+    return stars;
 }
 
 function setupModalHandlers() {
@@ -337,9 +426,26 @@ function setupModalHandlers() {
             e.target.style.display = 'none';
         }
     });
-    
-    // Cancel buttons
-    document.getElementById('cancelEdit').addEventListener('click', closeEditModal);
+}
+
+function showError(elementId, message) {
+    const errorElement = document.getElementById(elementId);
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+    }
+}
+
+function clearError(elementId) {
+    const errorElement = document.getElementById(elementId);
+    if (errorElement) {
+        errorElement.style.display = 'none';
+    }
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
 }
 
 function escapeHtml(text) {

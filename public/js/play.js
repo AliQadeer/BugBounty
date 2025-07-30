@@ -4,115 +4,24 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 let selectedVulnerability = null;
-let currentQuiz = null;
-let currentQuestionIndex = 0;
-let userAnswers = [];
-let score = 0;
-
-// Quiz questions for each vulnerability type
-const quizQuestions = {
-    'XSS': [
-        {
-            question: 'What does XSS stand for?',
-            options: ['Cross-Site Scripting', 'X-ray Security System', 'eXtended SQL Syntax', 'X-Site Security'],
-            correct: 0
-        },
-        {
-            question: 'Which type of XSS is stored on the server?',
-            options: ['Reflected XSS', 'Persistent XSS', 'DOM-based XSS', 'Blind XSS'],
-            correct: 1
-        },
-        {
-            question: 'What is the primary defense against XSS?',
-            options: ['SQL sanitization', 'Input validation and output encoding', 'Firewall rules', 'Password encryption'],
-            correct: 1
-        },
-        {
-            question: 'Which HTML tag is commonly exploited in XSS attacks?',
-            options: ['<div>', '<script>', '<table>', '<form>'],
-            correct: 1
-        },
-        {
-            question: 'What does CSP help prevent?',
-            options: ['SQL Injection', 'Cross-Site Scripting', 'CSRF attacks', 'Session hijacking'],
-            correct: 1
-        }
-    ],
-    'SQL Injection': [
-        {
-            question: 'What is SQL Injection?',
-            options: ['A virus', 'Database attack via malicious SQL', 'Network protocol', 'Encryption method'],
-            correct: 1
-        },
-        {
-            question: 'Which SQL operator is often used in injection attacks?',
-            options: ['SELECT', 'OR', 'CREATE', 'DROP'],
-            correct: 1
-        },
-        {
-            question: 'What is the best defense against SQL injection?',
-            options: ['Strong passwords', 'Prepared statements', 'Encryption', 'Firewalls'],
-            correct: 1
-        },
-        {
-            question: 'What does the UNION operator do in SQL injection?',
-            options: ['Deletes data', 'Combines results from multiple queries', 'Encrypts data', 'Creates backups'],
-            correct: 1
-        },
-        {
-            question: 'Which character is commonly used to comment out SQL code?',
-            options: ['#', '--', '//', '<!--'],
-            correct: 1
-        }
-    ],
-    'Cross Site Request Forgery': [
-        {
-            question: 'What does CSRF stand for?',
-            options: ['Cross-Site Request Forgery', 'Cyber Security Risk Framework', 'Client Server Response Format', 'Critical System Resource Failure'],
-            correct: 0
-        },
-        {
-            question: 'How does CSRF attack work?',
-            options: ['By stealing passwords', 'By tricking users into unwanted actions', 'By corrupting databases', 'By blocking network traffic'],
-            correct: 1
-        },
-        {
-            question: 'What is the primary defense against CSRF?',
-            options: ['Strong passwords', 'CSRF tokens', 'Encryption', 'Firewalls'],
-            correct: 1
-        },
-        {
-            question: 'CSRF attacks exploit what aspect of web applications?',
-            options: ['User trust', 'Browser trust in authenticated users', 'Weak encryption', 'Poor passwords'],
-            correct: 1
-        },
-        {
-            question: 'Which HTTP method is most vulnerable to CSRF?',
-            options: ['GET', 'POST', 'PUT', 'DELETE'],
-            correct: 0
-        }
-    ]
-};
 
 function setupEventListeners() {
     // Action buttons on main menu
     document.getElementById('openReportBtn').addEventListener('click', showOpenReportSection);
     document.getElementById('closeReportBtn').addEventListener('click', showCloseReportSection);
     
-    // Quiz navigation
-    document.getElementById('nextQuestionBtn').addEventListener('click', nextQuestion);
-    document.getElementById('submitQuizBtn').addEventListener('click', submitQuiz);
+    // Solution submission
+    document.getElementById('submitSolutionBtn').addEventListener('click', submitSolution);
     
     // Results buttons
-    document.getElementById('newQuizBtn').addEventListener('click', showMainMenu);
-    document.getElementById('confirmCloseBtn').addEventListener('click', handleCloseReport);
+    document.getElementById('newReportBtn').addEventListener('click', showMainMenu);
     document.getElementById('closeAnotherBtn').addEventListener('click', showMainMenu);
 }
 
 function showMainMenu() {
     hideAllSections();
     document.getElementById('mainMenu').classList.add('active');
-    resetQuizState();
+    resetState();
 }
 
 function showOpenReportSection() {
@@ -155,7 +64,7 @@ function displayVulnerabilityTypes(vulnerabilities) {
     }
     
     const html = vulnerabilities.map(vuln => `
-        <div class="vulnerability-option" onclick="selectVulnerability(${vuln.id}, '${escapeHtml(vuln.type)}', ${vuln.points})">
+        <div class="vulnerability-option" onclick="selectVulnerability(${vuln.id}, '${escapeHtml(vuln.type)}', ${vuln.points}, '${escapeHtml(vuln.description)}')">
             <h3>${escapeHtml(vuln.type)}</h3>
             <p>${escapeHtml(vuln.description)}</p>
             <div class="vulnerability-points">${vuln.points} Points</div>
@@ -165,160 +74,73 @@ function displayVulnerabilityTypes(vulnerabilities) {
     container.innerHTML = html;
 }
 
-function selectVulnerability(id, type, points) {
-    selectedVulnerability = { id, type, points };
-    
-    // Check if we have quiz questions for this vulnerability type
-    if (quizQuestions[type]) {
-        startQuiz(type);
-    } else {
-        // Fallback to generic questions or direct report creation
-        alert('Quiz not available for this vulnerability type. Creating report directly...');
-        createDirectReport();
-    }
+function selectVulnerability(id, type, points, description) {
+    selectedVulnerability = { id, type, points, description };
+    showSolutionSection();
 }
 
-function startQuiz(vulnerabilityType) {
+function showSolutionSection() {
     hideAllSections();
-    document.getElementById('quizSection').classList.add('active');
+    document.getElementById('solutionSection').classList.add('active');
     
-    currentQuiz = [...quizQuestions[vulnerabilityType]]; // Copy questions
-    currentQuestionIndex = 0;
-    userAnswers = [];
-    score = 0;
+    // Populate vulnerability info
+    document.getElementById('selectedVulnType').textContent = selectedVulnerability.type;
+    document.getElementById('selectedVulnDescription').textContent = selectedVulnerability.description;
+    document.getElementById('selectedVulnPoints').textContent = selectedVulnerability.points;
     
-    document.getElementById('quizTitle').textContent = `${vulnerabilityType} Knowledge Quiz`;
-    
-    showCurrentQuestion();
+    // Clear previous solution text
+    document.getElementById('solutionText').value = '';
 }
 
-function showCurrentQuestion() {
-    const question = currentQuiz[currentQuestionIndex];
-    const progress = ((currentQuestionIndex + 1) / currentQuiz.length) * 100;
+function submitSolution() {
+    const solutionText = document.getElementById('solutionText').value.trim();
     
-    // Update progress
-    document.getElementById('quizProgressFill').style.width = `${progress}%`;
-    document.getElementById('quizProgressText').textContent = `Question ${currentQuestionIndex + 1} of ${currentQuiz.length}`;
-    
-    // Display question
-    document.getElementById('questionText').textContent = question.question;
-    
-    // Display options
-    const optionsHtml = question.options.map((option, index) => `
-        <div class="answer-option" data-answer="${index}">
-            ${escapeHtml(option)}
-        </div>
-    `).join('');
-    
-    document.getElementById('answerOptions').innerHTML = optionsHtml;
-    
-    // Add click handlers to options
-    document.querySelectorAll('.answer-option').forEach(option => {
-        option.addEventListener('click', selectAnswer);
-    });
-    
-    // Update buttons
-    document.getElementById('nextQuestionBtn').style.display = currentQuestionIndex < currentQuiz.length - 1 ? 'inline-block' : 'none';
-    document.getElementById('submitQuizBtn').style.display = currentQuestionIndex === currentQuiz.length - 1 ? 'inline-block' : 'none';
-    document.getElementById('nextQuestionBtn').disabled = true;
-}
-
-function selectAnswer(event) {
-    // Remove previous selection
-    document.querySelectorAll('.answer-option').forEach(opt => opt.classList.remove('selected'));
-    
-    // Mark current selection
-    event.target.classList.add('selected');
-    
-    // Store answer
-    const answerIndex = parseInt(event.target.dataset.answer);
-    userAnswers[currentQuestionIndex] = answerIndex;
-    
-    // Enable next button
-    document.getElementById('nextQuestionBtn').disabled = false;
-    document.getElementById('submitQuizBtn').disabled = false;
-}
-
-function nextQuestion() {
-    currentQuestionIndex++;
-    showCurrentQuestion();
-}
-
-function submitQuiz() {
-    // Calculate score
-    score = 0;
-    for (let i = 0; i < currentQuiz.length; i++) {
-        if (userAnswers[i] === currentQuiz[i].correct) {
-            score++;
-        }
+    if (!solutionText) {
+        alert('Please enter your solution before submitting.');
+        return;
     }
     
-    if (score === currentQuiz.length) {
-        // Perfect score - create report
-        createReportFromQuiz();
-    } else {
-        // Show failure result
-        showQuizFailure();
-    }
-}
-
-function createReportFromQuiz() {
     const user = getCurrentUser();
     if (!user || !selectedVulnerability) return;
     
     const reportData = {
         user_id: user.id,
-        vulnerability_id: selectedVulnerability.id
+        vulnerability_id: selectedVulnerability.id,
+        solution: solutionText
     };
     
+    // Disable button to prevent double submission
+    const submitBtn = document.getElementById('submitSolutionBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+    
     API.createReport(reportData, function(status, data) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Report';
+        
         if (status === 201) {
-            showQuizSuccess(data);
+            showSolutionSuccess(data);
         } else {
             alert('Failed to create report. Please try again.');
-            showMainMenu();
         }
     });
 }
 
-function createDirectReport() {
-    const user = getCurrentUser();
-    if (!user || !selectedVulnerability) return;
-    
-    const reportData = {
-        user_id: user.id,
-        vulnerability_id: selectedVulnerability.id
-    };
-    
-    API.createReport(reportData, function(status, data) {
-        if (status === 201) {
-            showDirectReportSuccess(data);
-        } else {
-            alert('Failed to create report. Please try again.');
-            showMainMenu();
-        }
-    });
-}
-
-function showQuizSuccess(reportData) {
+function showSolutionSuccess(reportData) {
     hideAllSections();
-    document.getElementById('quizResults').classList.add('active');
+    document.getElementById('solutionResults').classList.add('active');
     
     const user = getCurrentUser();
     
     const resultsHtml = `
-        <div class="success-badge">Perfect Score! 🎉</div>
+        <div class="success-badge">Solution Submitted! 🎉</div>
         <div class="result-item">
             <span class="result-label">Report ID:</span>
             <span class="result-value">${reportData.id}</span>
         </div>
         <div class="result-item">
-            <span class="result-label">User ID:</span>
-            <span class="result-value">${reportData.user_id}</span>
-        </div>
-        <div class="result-item">
-            <span class="result-label">Vulnerability ID:</span>
-            <span class="result-value">${reportData.vulnerability_id}</span>
+            <span class="result-label">Vulnerability Type:</span>
+            <span class="result-value">${selectedVulnerability.type}</span>
         </div>
         <div class="result-item">
             <span class="result-label">Status:</span>
@@ -341,19 +163,6 @@ function showQuizSuccess(reportData) {
         const updatedUser = { ...user, reputation: reportData.user_reputation };
         setCurrentUser(updatedUser);
     }
-}
-
-function showQuizFailure() {
-    hideAllSections();
-    document.getElementById('quizResults').classList.add('active');
-    
-    const resultsHtml = `
-        <div class="error-message">Quiz Failed</div>
-        <p>You scored ${score} out of ${currentQuiz.length} questions.</p>
-        <p>You need a perfect score to submit a report. Study the vulnerability type and try again!</p>
-    `;
-    
-    document.getElementById('resultsContent').innerHTML = resultsHtml;
 }
 
 function handleCloseReport() {
@@ -596,12 +405,8 @@ function showCloseSuccess(reportId, badgeAwarded) {
     }
 }
 
-function resetQuizState() {
+function resetState() {
     selectedVulnerability = null;
-    currentQuiz = null;
-    currentQuestionIndex = 0;
-    userAnswers = [];
-    score = 0;
 }
 
 function escapeHtml(text) {

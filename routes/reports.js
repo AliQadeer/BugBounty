@@ -18,9 +18,12 @@ const updateUserReputationUpdateReport = require('../middleware/updateUserReputa
 const checkAndAwardBadge = require('../middleware/checkAndAwardBadge.js')
 const checkAndAwardBadgeForClosing = require('../middleware/checkAndAwardBadgeForClosing.js')
 const checkVulnerabilityExistsUpdateReport = require('../middleware/checkVulnerabilityExistsUpdateReport.js')
+const updateUserReputationForClosing = require('../middleware/updateUserReputationForClosing.js')
+const updateRankForClosing = require('../middleware/updateRankForClosing.js')
+const getUserReputationForClosing = require('../middleware/getUserReputationForClosing.js')
 // Define routes here...
 router.get('/', controllers.getAllReports);
 router.post('/', validateuserandvulIDS, controllers.createNewReport,checkVulnerabilityExists,insertReport,updateUserReputationReport,updateRank,getUserReputation,getUserRank);
 router.put('/:id', validateReportID, controllers.updateReport,checkUserExists,getVulIdFromReport,checkVulnerabilityExistsUpdateReport,putById,fetchIdandStatus,updateUserReputationUpdateReport,checkAndAwardBadge);
-router.patch('/:id/close', controllers.validateCloseReport, controllers.executeCloseReport, checkAndAwardBadgeForClosing);
+router.patch('/:id/close', controllers.validateCloseReport, controllers.executeCloseReport, updateUserReputationForClosing, updateRankForClosing, getUserReputationForClosing, checkAndAwardBadgeForClosing);
 module.exports = router;
