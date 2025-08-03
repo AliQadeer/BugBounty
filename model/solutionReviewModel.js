@@ -99,11 +99,12 @@ module.exports.getClosedReportsWithSolutions = (callback) => {
             r.status,
             r.closer_id,
             r.closed_at,
+            r.description,
             r.solution,
             u.username as reporter_username,
             closer.username as closer_username,
             v.type,
-            v.description,
+            v.description as vulnerability_description,
             v.points,
             AVG(sr.rating) as avg_rating,
             COUNT(sr.id) as review_count
@@ -113,7 +114,7 @@ module.exports.getClosedReportsWithSolutions = (callback) => {
         JOIN vulnerability v ON r.vulnerability_id = v.id
         LEFT JOIN solution_reviews sr ON r.id = sr.report_id
         WHERE r.status = 1 AND r.solution IS NOT NULL
-        GROUP BY r.id, r.user_id, r.vulnerability_id, r.status, r.closer_id, r.closed_at, r.solution, u.username, closer.username, v.type, v.description, v.points
+        GROUP BY r.id, r.user_id, r.vulnerability_id, r.status, r.closer_id, r.closed_at, r.description, r.solution, u.username, closer.username, v.type, v.description, v.points
         ORDER BY r.closed_at DESC
     `;
     pool.query(SQLSTATEMENT, callback);

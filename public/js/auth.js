@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const username = document.getElementById('loginUsername').value.trim();
         const password = document.getElementById('loginPassword').value;
+        const rememberMe = document.getElementById('rememberMeLogin').checked;
         
         if (!username || !password) {
             showError('loginError', 'Please fill in all fields');
@@ -49,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (status === 200) {
                 // Login successful
-                setToken(data.token);
+                setTokens(data.token, data.refreshToken, rememberMe);
                 
                 // Get user details and store them
                 const payload = JSON.parse(atob(data.token.split('.')[1]));
@@ -92,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const username = document.getElementById('registerUsername').value.trim();
         const email = document.getElementById('registerEmail').value.trim();
         const password = document.getElementById('registerPassword').value;
+        const rememberMe = document.getElementById('rememberMeRegister').checked;
         
         if (!username || !email || !password) {
             showError('registerError', 'Please fill in all fields');
@@ -121,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (status === 200) {
                 // Registration successful
-                setToken(data.token);
+                setTokens(data.token, data.refreshToken, rememberMe);
                 
                 // Get user details and store them
                 const payload = JSON.parse(atob(data.token.split('.')[1]));

@@ -1,6 +1,7 @@
 const db = require("../services/db");
 
 const schema = `
+DROP TABLE IF EXISTS solution_reviews;
 DROP TABLE IF EXISTS UserShopItems;
 DROP TABLE IF EXISTS UserBadge;
 DROP TABLE IF EXISTS reviews;
@@ -129,6 +130,7 @@ CREATE TABLE IF NOT EXISTS Report (
   status BOOLEAN NOT NULL DEFAULT 0,
   closer_id INT NULL,
   closed_at DATETIME NULL,
+  description TEXT NULL,
   solution TEXT NULL,
   CHECK (status IN (0,1))
 );

@@ -281,10 +281,10 @@
             </div>
         </div>
 
-        <!-- Solution Section -->
+        <!-- Report Description Section -->
         <div id="solutionSection" class="play-section">
             <div class="section-header">
-                <h2 id="solutionTitle">Submit Your Solution</h2>
+                <h2 id="solutionTitle">Submit Your Report</h2>
                 <button class="back-btn" onclick="showOpenReportSection()">← Back</button>
             </div>
             
@@ -296,8 +296,11 @@
                 </div>
                 
                 <div class="solution-form">
-                    <label for="solutionText">Your Solution:</label>
-                    <textarea id="solutionText" placeholder="Describe your solution for this vulnerability..." rows="8" required></textarea>
+                    <label for="solutionText">Vulnerability Description:</label>
+                    <textarea id="solutionText" placeholder="Describe the vulnerability you found..." rows="8" required></textarea>
+                    <div class="form-help">
+                        <small>Note: The solution will be provided when someone closes this report.</small>
+                    </div>
                     
                     <div class="solution-actions">
                         <button id="submitSolutionBtn" class="action-btn primary">Submit Report</button>
@@ -330,6 +333,36 @@
                 <div id="errorReports" class="error-message" style="display: none;"></div>
                 <div id="reportsListContainer" class="reports-list-container" style="display: none;">
                     <!-- Reports will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Provide Solution Section -->
+        <div id="solutionInputSection" class="play-section">
+            <div class="section-header">
+                <h2>Provide Solution</h2>
+                <button class="back-btn" onclick="showCloseReportSection()">← Back</button>
+            </div>
+            
+            <div class="solution-container">
+                <div class="report-info">
+                    <h3 id="closingReportType"></h3>
+                    <p><strong>Reporter:</strong> <span id="closingReportUser"></span></p>
+                    <p><strong>Description:</strong></p>
+                    <div id="closingReportDescription" class="report-description"></div>
+                    <div class="vulnerability-points">Points: <span id="closingReportPoints"></span></div>
+                </div>
+                
+                <div class="solution-form">
+                    <label for="closingSolutionText">Your Solution:</label>
+                    <textarea id="closingSolutionText" placeholder="Provide the solution for this vulnerability..." rows="8" required></textarea>
+                    <div class="form-help">
+                        <small>Explain how to fix or prevent this vulnerability.</small>
+                    </div>
+                    
+                    <div class="solution-actions">
+                        <button id="submitCloseSolutionBtn" class="action-btn primary">Close Report with Solution</button>
+                    </div>
                 </div>
             </div>
         </div>

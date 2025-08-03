@@ -30,6 +30,10 @@
                             <label for="loginPassword">Password:</label>
                             <input type="password" id="loginPassword" name="password" required>
                         </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="rememberMeLogin" name="rememberMe">
+                            <label for="rememberMeLogin" class="checkbox-label">Remember Me</label>
+                        </div>
                         <button type="submit" class="auth-btn">Login</button>
                     </form>
                     <div id="loginError" class="error-message"></div>
@@ -51,6 +55,10 @@
                             <label for="registerPassword">Password:</label>
                             <input type="password" id="registerPassword" name="password" required>
                         </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="rememberMeRegister" name="rememberMe">
+                            <label for="rememberMeRegister" class="checkbox-label">Remember Me</label>
+                        </div>
                         <button type="submit" class="auth-btn">Register</button>
                     </form>
                     <div id="registerError" class="error-message"></div>
@@ -60,6 +68,7 @@
     </div>
 
     <script src="js/api.js"></script>
+    <script src="js/custom-alerts.js"></script>
     <script src="js/auth.js"></script>
 </body>
 </html>

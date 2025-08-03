@@ -1,7 +1,7 @@
 const model = require("../model/reportmodel.js");
 
 module.exports = (req,res,next) => {
-    const { user_id, vulnerability_id, solution } = req.body;
+    const { user_id, vulnerability_id, description } = req.body;
 
     const callback = (error,results) => {
          if (error) {
@@ -13,5 +13,5 @@ module.exports = (req,res,next) => {
         next();
     }
 
-    model.insertReport(user_id, vulnerability_id, solution, callback)
+    model.insertReport(user_id, vulnerability_id, description, callback)
 }

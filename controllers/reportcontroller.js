@@ -1,10 +1,10 @@
 const model = require("../model/reportmodel.js");
 // CREATE NEW REPORT
 module.exports.createNewReport = (req, res, next) => {
-    const { user_id, vulnerability_id, solution } = req.body;
+    const { user_id, vulnerability_id, description } = req.body;
 
-    if(!user_id || !vulnerability_id || !solution) {
-        return res.status(400).json({error: "Please provide required fields (user_id, vulnerability_id, solution)"});
+    if(!user_id || !vulnerability_id || !description) {
+        return res.status(400).json({error: "Please provide required fields (user_id, vulnerability_id, description)"});
     }
 
     const callback = (error, results, fields) => {
@@ -60,13 +60,39 @@ module.exports.getAllReports = (req, res, next) => {
     model.getAllReports(callback);
 };
 
+// GET SINGLE REPORT BY ID
+module.exports.getReportById = (req, res, next) => {
+    const reportId = req.params.id;
+    
+    const callback = (error, results, fields) => {
+        if (error) {
+            console.error("Database error:", error);
+            return res.status(500).json({ error: "Database error retrieving report" });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: "Report not found" });
+        }
+
+        // Return the single report
+        return res.status(200).json(results[0]);
+    };
+
+    model.getReportById(reportId, callback);
+};
+
 // CLOSE REPORT - Validation step (first middleware)
 module.exports.validateCloseReport = (req, res, next) => {
     const reportId = req.params.id;
     const closerId = req.body.closer_id;
+    const solution = req.body.solution;
 
     if (!closerId) {
         return res.status(400).json({ error: "Closer ID is required" });
+    }
+
+    if (!solution || solution.trim() === '') {
+        return res.status(400).json({ error: "Solution is required when closing a report" });
     }
 
     // Check if report exists and is not already closed
@@ -91,6 +117,7 @@ module.exports.validateCloseReport = (req, res, next) => {
 module.exports.executeCloseReport = (req, res, next) => {
     const reportId = req.params.id;
     const closerId = req.body.closer_id;
+    const solution = req.body.solution;
 
     const closeCallback = (closeError) => {
         if (closeError) {
@@ -99,6 +126,6 @@ module.exports.executeCloseReport = (req, res, next) => {
         next(); // Proceed to badge checking middleware
     };
 
-    model.closeReport(reportId, closerId, closeCallback);
+    model.closeReportWithSolution(reportId, closerId, solution, closeCallback);
 };
 

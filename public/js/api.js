@@ -49,6 +49,114 @@ function removeToken() {
     localStorage.removeItem('authToken');
 }
 
+// Enhanced token management for refresh tokens
+function getRefreshToken() {
+    return localStorage.getItem('refreshToken');
+}
+
+function setRefreshToken(token) {
+    localStorage.setItem('refreshToken', token);
+}
+
+function removeRefreshToken() {
+    localStorage.removeItem('refreshToken');
+}
+
+function setTokens(accessToken, refreshToken, rememberMe = false) {
+    if (rememberMe) {
+        // Store in localStorage for persistent sessions
+        localStorage.setItem('authToken', accessToken);
+        if (refreshToken) {
+            localStorage.setItem('refreshToken', refreshToken);
+        }
+        localStorage.setItem('rememberMe', 'true');
+    } else {
+        // Store in sessionStorage for session-only
+        sessionStorage.setItem('authToken', accessToken);
+        if (refreshToken) {
+            sessionStorage.setItem('refreshToken', refreshToken);
+        }
+        localStorage.removeItem('rememberMe');
+    }
+}
+
+function getStoredToken() {
+    // Check if remember me was enabled
+    const rememberMe = localStorage.getItem('rememberMe') === 'true';
+    if (rememberMe) {
+        return localStorage.getItem('authToken');
+    } else {
+        return sessionStorage.getItem('authToken') || localStorage.getItem('authToken');
+    }
+}
+
+function getStoredRefreshToken() {
+    const rememberMe = localStorage.getItem('rememberMe') === 'true';
+    if (rememberMe) {
+        return localStorage.getItem('refreshToken');
+    } else {
+        return sessionStorage.getItem('refreshToken') || localStorage.getItem('refreshToken');
+    }
+}
+
+function clearAllTokens() {
+    // Clear from both storage locations
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('rememberMe');
+    sessionStorage.removeItem('authToken');
+    sessionStorage.removeItem('refreshToken');
+}
+
+// Token refresh functionality
+function refreshAccessToken(callback) {
+    const refreshToken = getStoredRefreshToken();
+    if (!refreshToken) {
+        callback(false, 'No refresh token available');
+        return;
+    }
+
+    fetchMethod('/api/auth/refresh', (status, data) => {
+        if (status === 200 && data.token) {
+            const rememberMe = localStorage.getItem('rememberMe') === 'true';
+            setTokens(data.token, data.refreshToken || refreshToken, rememberMe);
+            callback(true, data.token);
+        } else {
+            // Refresh token is invalid, clear all tokens
+            clearAllTokens();
+            callback(false, 'Refresh token expired');
+        }
+    }, 'POST', { refreshToken });
+}
+
+// Enhanced fetch method with automatic token refresh
+function fetchWithAuth(url, callback, method = "GET", data = null) {
+    const token = getStoredToken();
+    
+    if (!token) {
+        callback(401, { error: 'No authentication token' });
+        return;
+    }
+
+    // First attempt with current token
+    fetchMethod(url, (status, responseData) => {
+        if (status === 401 && getStoredRefreshToken()) {
+            // Token might be expired, try to refresh
+            refreshAccessToken((success, newToken) => {
+                if (success) {
+                    // Retry with new token
+                    fetchMethod(url, callback, method, data, newToken);
+                } else {
+                    // Refresh failed, redirect to login
+                    window.location.href = 'index.html';
+                }
+            });
+        } else {
+            callback(status, responseData);
+        }
+    }, method, data, token);
+}
+
 function getCurrentUser() {
     const userStr = localStorage.getItem('currentUser');
     return userStr ? JSON.parse(userStr) : null;
@@ -63,7 +171,7 @@ function removeCurrentUser() {
 }
 
 function isAuthenticated() {
-    const token = getToken();
+    const token = getStoredToken();
     const user = getCurrentUser();
     return token && user;
 }
@@ -161,22 +269,22 @@ const API = {
     },
     
     getMyReviews: (callback) => {
-        const token = getToken();
+        const token = getStoredToken();
         fetchMethod(API_ENDPOINTS.myReviews, callback, 'GET', null, token);
     },
     
     createReview: (reviewData, callback) => {
-        const token = getToken();
+        const token = getStoredToken();
         fetchMethod(API_ENDPOINTS.reviews, callback, 'POST', reviewData, token);
     },
     
     updateReview: (id, reviewData, callback) => {
-        const token = getToken();
+        const token = getStoredToken();
         fetchMethod(API_ENDPOINTS.reviewById(id), callback, 'PUT', reviewData, token);
     },
     
     deleteReview: (id, callback) => {
-        const token = getToken();
+        const token = getStoredToken();
         fetchMethod(API_ENDPOINTS.reviewById(id), callback, 'DELETE', null, token);
     },
     
@@ -246,7 +354,7 @@ function formatDate(dateString) {
 }
 
 function logout() {
-    removeToken();
+    clearAllTokens();
     removeCurrentUser();
     window.location.href = 'index.html';
 }

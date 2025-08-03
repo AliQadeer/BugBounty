@@ -10,12 +10,12 @@ module.exports.checkVulnerabilityExists = (vulnerability_id, callback) => {
     pool.query("SELECT * FROM Vulnerability WHERE id = ?", [vulnerability_id], callback);
 };
 
-// Insert report with solution
-module.exports.insertReport = (user_id, vulnerability_id, solution, callback) => {
+// Insert report with description
+module.exports.insertReport = (user_id, vulnerability_id, description, callback) => {
     const SQLSTATEMENT = `
-    INSERT INTO Report (user_id, vulnerability_id, status, solution) 
+    INSERT INTO Report (user_id, vulnerability_id, status, description) 
     VALUES (?, ?, 0, ?)`;
-    const VALUES = [user_id, vulnerability_id, solution];
+    const VALUES = [user_id, vulnerability_id, description];
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 
@@ -54,6 +54,18 @@ module.exports.closeReport = (id, closer_id, callback) => {
     WHERE id = ? `;
 
     const VALUES = [closer_id, id]
+
+    pool.query(SQLSTATEMENT,VALUES,callback)
+}
+
+//CLOSING REPORT WITH SOLUTION (New function for closing with solution)
+module.exports.closeReportWithSolution = (id, closer_id, solution, callback) => {
+    const SQLSTATEMENT = `
+    UPDATE Report
+    SET status = 1, closer_id = ?, solution = ?, closed_at = NOW()
+    WHERE id = ? `;
+
+    const VALUES = [closer_id, solution, id]
 
     pool.query(SQLSTATEMENT,VALUES,callback)
 }
@@ -205,11 +217,12 @@ module.exports.getAllReports = (callback) => {
             r.status,
             r.closer_id,
             r.closed_at,
+            r.description,
             r.solution,
             u.username as reporter_username,
             closer.username as closer_username,
             v.type,
-            v.description,
+            v.description as vulnerability_description,
             v.points
         FROM report r
         JOIN user u ON r.user_id = u.id
@@ -218,5 +231,32 @@ module.exports.getAllReports = (callback) => {
         ORDER BY r.id DESC
     `;
     pool.query(SQLSTATEMENT, callback);
+};
+
+// GET SINGLE REPORT BY ID
+module.exports.getReportById = (id, callback) => {
+    const SQLSTATEMENT = `
+        SELECT 
+            r.id,
+            r.user_id,
+            r.vulnerability_id,
+            r.status,
+            r.closer_id,
+            r.closed_at,
+            r.description,
+            r.solution,
+            u.username as reporter_username,
+            closer.username as closer_username,
+            v.type,
+            v.description as vulnerability_description,
+            v.points
+        FROM report r
+        JOIN user u ON r.user_id = u.id
+        LEFT JOIN user closer ON r.closer_id = closer.id
+        JOIN vulnerability v ON r.vulnerability_id = v.id
+        WHERE r.id = ?
+    `;
+    const VALUES = [id];
+    pool.query(SQLSTATEMENT, VALUES, callback);
 };
 

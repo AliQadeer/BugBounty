@@ -884,3 +884,69 @@
         text-align: left;
     }
 }
+
+/* Additional styles for new workflow */
+.form-help {
+    margin-top: 0.5rem;
+}
+
+.form-help small {
+    color: var(--silver);
+    font-style: italic;
+    font-size: 0.85rem;
+}
+
+.report-info {
+    background: rgba(61, 41, 20, 0.6);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 2px solid var(--bronze);
+    margin-bottom: 1.5rem;
+}
+
+.report-info h3 {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.report-info p {
+    color: var(--parchment);
+    margin-bottom: 0.75rem;
+}
+
+.report-description {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--gold);
+    margin: 0.5rem 0 1rem 0;
+    color: var(--parchment);
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.report-description-section {
+    margin: 15px 0;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border-left: 3px solid var(--gold);
+}
+
+.report-description-section strong {
+    color: var(--gold);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.user-report-description {
+    color: var(--parchment);
+    margin-top: 8px;
+    line-height: 1.4;
+    font-style: italic;
+}

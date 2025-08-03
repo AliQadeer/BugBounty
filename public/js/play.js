@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 let selectedVulnerability = null;
+let reportToClose = null;
 
 function setupEventListeners() {
     // Action buttons on main menu
@@ -12,6 +13,9 @@ function setupEventListeners() {
     
     // Solution submission
     document.getElementById('submitSolutionBtn').addEventListener('click', submitSolution);
+    
+    // Solution input for closing reports
+    document.getElementById('submitCloseSolutionBtn').addEventListener('click', submitClosingSolution);
     
     // Results buttons
     document.getElementById('newReportBtn').addEventListener('click', showMainMenu);
@@ -34,6 +38,22 @@ function showCloseReportSection() {
     hideAllSections();
     document.getElementById('closeReportSection').classList.add('active');
     loadReportsForClosing();
+}
+
+function showSolutionInputSection() {
+    if (!reportToClose) return;
+    
+    hideAllSections();
+    document.getElementById('solutionInputSection').classList.add('active');
+    
+    // Populate report info
+    document.getElementById('closingReportType').textContent = reportToClose.type;
+    document.getElementById('closingReportUser').textContent = reportToClose.reporter_username;
+    document.getElementById('closingReportDescription').textContent = reportToClose.description || 'No description provided';
+    document.getElementById('closingReportPoints').textContent = reportToClose.points;
+    
+    // Clear previous solution text
+    document.getElementById('closingSolutionText').value = '';
 }
 
 function hideAllSections() {
@@ -93,11 +113,11 @@ function showSolutionSection() {
 }
 
 function submitSolution() {
-    const solutionText = document.getElementById('solutionText').value.trim();
+    const descriptionText = document.getElementById('solutionText').value.trim();
     
-    if (!solutionText) {
-        showAlert.warning('Please enter your solution before submitting.', {
-            title: 'Missing Solution',
+    if (!descriptionText) {
+        showAlert.warning('Please enter a description of the vulnerability before submitting.', {
+            title: 'Missing Description',
             duration: 4000
         });
         return;
@@ -109,7 +129,7 @@ function submitSolution() {
     const reportData = {
         user_id: user.id,
         vulnerability_id: selectedVulnerability.id,
-        solution: solutionText
+        description: descriptionText
     };
     
     // Disable button to prevent double submission
@@ -139,7 +159,7 @@ function showSolutionSuccess(reportData) {
     const user = getCurrentUser();
     
     const resultsHtml = `
-        <div class="success-badge">Solution Submitted! 🎉</div>
+        <div class="success-badge">Report Submitted! 🎉</div>
         <div class="result-item">
             <span class="result-label">Report ID:</span>
             <span class="result-value">${reportData.id}</span>
@@ -311,9 +331,16 @@ function displayReportsForClosing(reports) {
             
             <div class="vulnerability-details">
                 <div class="vulnerability-type">${escapeHtml(report.type)}</div>
-                <div class="vulnerability-description">${escapeHtml(report.description)}</div>
+                <div class="vulnerability-description">${escapeHtml(report.vulnerability_description)}</div>
                 <div class="vulnerability-points">Points: ${report.points}</div>
             </div>
+            
+            ${report.description ? `
+                <div class="report-description-section">
+                    <strong>Report Description:</strong>
+                    <div class="user-report-description">${escapeHtml(report.description)}</div>
+                </div>
+            ` : ''}
             
             <div class="reporter-info">
                 Reported by: <strong>${escapeHtml(report.reporter_username)}</strong>
@@ -326,7 +353,7 @@ function displayReportsForClosing(reports) {
                 </div>
             ` : `
                 <button class="close-report-btn" onclick="closeReport(${report.id})" id="closeBtn${report.id}">
-                    Close Report
+                    Provide Solution
                 </button>
             `}
         </div>
@@ -344,29 +371,53 @@ function closeReport(reportId) {
         return;
     }
     
-    const closeButton = document.getElementById(`closeBtn${reportId}`);
-    if (closeButton) {
-        closeButton.disabled = true;
-        closeButton.textContent = 'Closing...';
+    // Get the report data and show solution input section
+    fetchMethod(`/api/reports/${reportId}`, (status, data) => {
+        if (status === 200 && data) {
+            reportToClose = data;
+            showSolutionInputSection();
+        } else {
+            console.error('Error fetching report:', status, data);
+            showReportsError('Failed to load report details: ' + (data?.error || 'Server error'));
+        }
+    }, 'GET');
+}
+
+function submitClosingSolution() {
+    const solutionText = document.getElementById('closingSolutionText').value.trim();
+    
+    if (!solutionText) {
+        showAlert.warning('Please provide a solution before closing the report.', {
+            title: 'Missing Solution',
+            duration: 4000
+        });
+        return;
     }
     
-    fetchMethod(`/api/reports/${reportId}/close`, (status, data) => {
+    const currentUser = getCurrentUser();
+    if (!currentUser || !reportToClose) return;
+    
+    const submitBtn = document.getElementById('submitCloseSolutionBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Closing Report...';
+    
+    fetchMethod(`/api/reports/${reportToClose.id}/close`, (status, data) => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Close Report with Solution';
+        
         if (status === 200 && data) {
-            // Reload reports to show updated status
-            loadReportsForClosing();
-            showCloseSuccess(reportId, data.badge_awarded);
+            showCloseResults(data);
+            reportToClose = null;
         } else {
             console.error('Error closing report:', status, data);
-            showReportsError('Failed to close report: ' + (data?.error || 'Server error'));
-            
-            // Re-enable button on error
-            if (closeButton) {
-                closeButton.disabled = false;
-                closeButton.textContent = 'Close Report';
-            }
+            showAlert.error('Failed to close report: ' + (data?.error || 'Server error'), {
+                title: 'Close Failed',
+                duration: 5000
+            });
         }
     }, 'PATCH', {
-        closer_id: currentUser.id
+        closer_id: currentUser.id,
+        solution: solutionText
     });
 }
 

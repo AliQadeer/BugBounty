@@ -160,7 +160,7 @@ function displaySolutions(solutions, container, isMyTab = false) {
                 
                 <div class="solution-content">
                     <h5>Solution:</h5>
-                    <p class="solution-text">${escapeHtml(solution.solution)}</p>
+                    <p class="solution-text">${escapeHtml(solution.solution || 'No solution provided yet')}</p>
                 </div>
                 
                 <div class="solution-actions">
@@ -279,7 +279,7 @@ function handleAddReviewSubmit(e) {
         comment: comment
     };
     
-    const token = getToken();
+    const token = getStoredToken();
     fetchMethod('/api/solution-reviews', (status, data) => {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit Review';
@@ -345,7 +345,7 @@ function handleEditReviewSubmit(e) {
         comment: comment
     };
     
-    const token = getToken();
+    const token = getStoredToken();
     fetchMethod(`/api/solution-reviews/${editingReviewId}`, (status, data) => {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Update Review';
@@ -381,7 +381,7 @@ function handleDeleteConfirm() {
     confirmBtn.disabled = true;
     confirmBtn.textContent = 'Deleting...';
     
-    const token = getToken();
+    const token = getStoredToken();
     fetchMethod(`/api/solution-reviews/${deletingReviewId}`, (status, data) => {
         confirmBtn.disabled = false;
         confirmBtn.textContent = 'Delete';
