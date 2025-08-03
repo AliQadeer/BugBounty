@@ -364,7 +364,10 @@ function openMysteryQuizModal() {
     
     // Check if user can afford the mystery box
     if (user.reputation < selectedItem.cost) {
-        alert('Insufficient reputation points!');
+        showAlert.error('Insufficient reputation points!', {
+            title: 'Purchase Failed',
+            duration: 4000
+        });
         return;
     }
     

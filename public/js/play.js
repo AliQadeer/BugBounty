@@ -96,7 +96,10 @@ function submitSolution() {
     const solutionText = document.getElementById('solutionText').value.trim();
     
     if (!solutionText) {
-        alert('Please enter your solution before submitting.');
+        showAlert.warning('Please enter your solution before submitting.', {
+            title: 'Missing Solution',
+            duration: 4000
+        });
         return;
     }
     
@@ -121,7 +124,10 @@ function submitSolution() {
         if (status === 201) {
             showSolutionSuccess(data);
         } else {
-            alert('Failed to create report. Please try again.');
+            showAlert.error('Failed to create report. Please try again.', {
+                title: 'Submission Failed',
+                duration: 5000
+            });
         }
     });
 }
@@ -180,7 +186,10 @@ function handleCloseReport() {
             const openReports = data.filter(report => report.status === 0);
             
             if (openReports.length === 0) {
-                alert('No open reports available to close!');
+                showAlert.info('No open reports available to close!', {
+                    title: 'No Open Reports',
+                    duration: 4000
+                });
                 confirmBtn.disabled = false;
                 confirmBtn.textContent = 'Close Report';
                 return;
@@ -199,14 +208,20 @@ function handleCloseReport() {
                 if (updateStatus === 200) {
                     showCloseResults(updateResult);
                 } else {
-                    alert('Failed to close report. Please try again.');
+                    showAlert.error('Failed to close report. Please try again.', {
+                        title: 'Close Failed',
+                        duration: 5000
+                    });
                 }
                 
                 confirmBtn.disabled = false;
                 confirmBtn.textContent = 'Close Report';
             });
         } else {
-            alert('Failed to load reports. Please try again.');
+            showAlert.error('Failed to load reports. Please try again.', {
+                title: 'Load Failed',
+                duration: 5000
+            });
             confirmBtn.disabled = false;
             confirmBtn.textContent = 'Close Report';
         }
