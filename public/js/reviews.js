@@ -9,9 +9,6 @@ let deletingReviewId = null;
 let currentReportId = null;
 
 function setupEventListeners() {
-    // Tab switching
-    document.getElementById('allSolutionsTab').addEventListener('click', () => switchTab('all'));
-    document.getElementById('mySolutionsTab').addEventListener('click', () => switchTab('my'));
     
     // Modal handlers
     setupModalHandlers();
@@ -71,26 +68,6 @@ function updateStarDisplay(container, rating) {
     });
 }
 
-function switchTab(tab) {
-    const allTab = document.getElementById('allSolutionsTab');
-    const myTab = document.getElementById('mySolutionsTab');
-    const allSolutions = document.getElementById('allSolutions');
-    const mySolutions = document.getElementById('mySolutions');
-    
-    if (tab === 'all') {
-        allTab.classList.add('active');
-        myTab.classList.remove('active');
-        allSolutions.classList.add('active');
-        mySolutions.classList.remove('active');
-        loadAllSolutions();
-    } else {
-        myTab.classList.add('active');
-        allTab.classList.remove('active');
-        mySolutions.classList.add('active');
-        allSolutions.classList.remove('active');
-        loadMySolutions();
-    }
-}
 
 function loadAllSolutions() {
     const container = document.getElementById('allSolutionsList');
@@ -105,28 +82,8 @@ function loadAllSolutions() {
     }, 'GET');
 }
 
-function loadMySolutions() {
-    const container = document.getElementById('mySolutionsList');
-    container.innerHTML = '<div class="loading-solutions">Loading your solutions...</div>';
-    
-    const currentUser = getCurrentUser();
-    if (!currentUser) {
-        container.innerHTML = '<div class="empty-solutions">Please log in to view your solutions</div>';
-        return;
-    }
-    
-    fetchMethod('/api/solution-reviews/solutions', (status, data) => {
-        if (status === 200) {
-            // Filter solutions by current user
-            const mySolutions = data.filter(solution => solution.user_id === currentUser.id);
-            displaySolutions(mySolutions, container, true);
-        } else {
-            container.innerHTML = '<div class="empty-solutions">Failed to load your solutions</div>';
-        }
-    }, 'GET');
-}
 
-function displaySolutions(solutions, container, isMyTab = false) {
+function displaySolutions(solutions, container) {
     if (solutions.length === 0) {
         container.innerHTML = '<div class="empty-solutions">No solutions found</div>';
         return;
