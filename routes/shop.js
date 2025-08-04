@@ -15,6 +15,7 @@ const checkUserOwnsItemEquip = require('../middleware/checkUserOwnsItemEquip.js'
 router.get('/', controllers.getAllShopItems);
 router.get("/user/:id/inventory", controllers.getUserShopItems,fetchUserShopItems);
 router.post("/purchase", controllers.purchaseShopItem,checkUserOwnsItem,getItemDetails,updateUserReputation,insertUserShopItem);
+router.post("/insertUserShopItem", controllers.purchaseShopItem,checkUserOwnsItem,insertUserShopItem);
 router.put("/equip", controllers.equipShopItem,checkUserOwnsItemEquip,unequipOtherItems,equipItem);
 router.put("/unequip", controllers.unequipShopItem,checkUserOwnsItemEquip,unequipItem);
 
