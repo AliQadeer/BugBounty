@@ -12,6 +12,37 @@ let currentQuestionIndex = 0;
 let userAnswers = [];
 let quizScore = 0;
 
+// GitHub image URL mapping
+function getGitHubImageUrl(itemName) {
+    const baseUrl = 'https://raw.githubusercontent.com/jeeejeeb/IMAGESCA2/main/';
+    const imageMap = {
+        'cyber helmet': 'cyber%20helmet.png',
+        'diamond knuckles': 'diamond%20knuckles.png',
+        'fire gauntlets': 'fire%20gauntlets.png',
+        'frost cape': 'frost%20cape.png',
+        'gas mask': 'gas%20mask.png',
+        'golden crown': 'golden%20crown.png',
+        'golden skull mask': 'golden%20skull%20mask.png',
+        'inferno cloak': 'inferno%20cloak.png',
+        'iron stompers': 'iron%20stompers.png',
+        'lava boots': 'lava%20boots.png',
+        'mystery quiz item box': 'mystery%20quiz%20item%20box.png',
+        'ninja mask': 'ninja%20mask.png',
+        'phantom cape': 'phantom%20cape.png',
+        'royal blue cape': 'royal%20blue%20cape.png',
+        'samurai headband': 'samurai%20headband.png',
+        'shadow gloves': 'shadow%20gloves.png',
+        'shadow walkers': 'shadow%20walkers.png',
+        'silken gloves': 'silken%20gloves.png',
+        'speed boots': 'speed%20boots.png',
+        'vigilante mask': 'vigilante%20mask.png',
+        'wizard hat': 'wizard%20hat.png'
+    };
+    
+    const fileName = imageMap[itemName.toLowerCase()] || itemName.toLowerCase().replace(/\s+/g, '%20') + '.png';
+    return baseUrl + fileName;
+}
+
 function loadUserReputation() {
     const user = getCurrentUser();
     if (user) {
@@ -73,7 +104,7 @@ function displayShopItems(items) {
         return `
             <div class="shop-item ${isOwned ? 'owned' : ''}" onclick="openPurchaseModal(${item.id}, '${escapeHtml(item.name)}', '${escapeHtml(item.type)}', ${item.cost}, ${isOwned})">
                 <div class="item-image-container">
-                    <img src="../images/${item.asset_url || item.name.toLowerCase().replace(/\s+/g, ' ') + '.png'}" 
+                    <img src="${getGitHubImageUrl(item.name)}" 
                          alt="${escapeHtml(item.name)}" 
                          class="item-image"
                          onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'empty-slot\\'>${escapeHtml(item.name)}</div>'">
@@ -81,7 +112,7 @@ function displayShopItems(items) {
                 <div class="item-name">${escapeHtml(item.name)}</div>
                 <div class="item-type">${escapeHtml(item.type)}</div>
                 <div class="item-cost">
-                    <img src="../images/shop_coin.png" alt="Coin" class="coin-icon-small">
+                    <img src="https://raw.githubusercontent.com/jeeejeeb/IMAGESCA2/main/shop_coin.png" alt="Coin" class="coin-icon-small">
                     ${item.cost}
                 </div>
                 <button class="purchase-btn" ${isOwned ? 'disabled' : ''}>
@@ -151,9 +182,9 @@ function openPurchaseModal(itemId, itemName, itemType, cost, isOwned) {
     
     // Set item image
     const modalImage = document.getElementById('modalItemImage');
-    modalImage.src = `../images/${itemName.toLowerCase().replace(/\s+/g, ' ')}.png`;
+    modalImage.src = getGitHubImageUrl(itemName);
     modalImage.onerror = function() {
-        this.src = '../images/default-item.png';
+        this.style.display = 'none';
     };
     
     // Check if user can afford the item
@@ -710,8 +741,7 @@ function showSuccessPopup(item, errorMessage = null) {
         
         // Set item image
         const rewardImage = document.getElementById('rewardItemImage');
-        const imagePath = `../images/${item.asset_url || item.name.toLowerCase().replace(/\s+/g, ' ') + '.png'}`;
-        rewardImage.src = imagePath;
+        rewardImage.src = getGitHubImageUrl(item.name);
         rewardImage.onerror = function() {
             this.style.display = 'none';
             this.parentElement.innerHTML = '<div style="color: #FFD700; font-size: 2rem;">🎁</div>';

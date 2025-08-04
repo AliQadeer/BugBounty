@@ -838,7 +838,7 @@ input::placeholder, textarea::placeholder {
     }
 }/* Medieval Home Page Styles */
 .home-body {
-    background-image: url('../images/home_bg.gif');
+    background-image: url('https://raw.githubusercontent.com/jeeejeeb/IMAGESCA2/main/home_bg.gif');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -1388,7 +1388,7 @@ input::placeholder, textarea::placeholder {
 }
 /* Medieval Login Page Styles */
 .login-body {
-    background-image: url('../images/login_bg.gif');
+    background-image: url('https://raw.githubusercontent.com/jeeejeeb/IMAGESCA2/main/login_bg.gif');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -1802,7 +1802,7 @@ input::placeholder, textarea::placeholder {
 }
 /* Medieval Leaderboard Page Styles */
 .leaderboard-body {
-    background-image: url('../images/leaderboard_bg.png');
+    background-image: url('https://raw.githubusercontent.com/jeeejeeb/IMAGESCA2/main/leaderboard_bg.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -2377,7 +2377,7 @@ input::placeholder, textarea::placeholder {
     }
 }/* Medieval Play Page Styles */
 .play-body {
-    background-image: url('../images/home_bg.gif');
+    background-image: url('https://raw.githubusercontent.com/jeeejeeb/IMAGESCA2/main/home_bg.gif');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -3328,7 +3328,7 @@ input::placeholder, textarea::placeholder {
     font-style: italic;
 }/* Medieval Profile Page Styles */
 .profile-body {
-    background-image: url('../images/profile_bg.gif');
+    background-image: url('https://raw.githubusercontent.com/jeeejeeb/IMAGESCA2/main/profile_bg.gif');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -4049,7 +4049,7 @@ input::placeholder, textarea::placeholder {
     }
 }/* Medieval Reviews Page Styles */
 .reviews-body {
-    background-image: url('../images/reviews_bg.gif');
+    background-image: url('https://raw.githubusercontent.com/jeeejeeb/IMAGESCA2/main/reviews_bg.gif');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -4971,7 +4971,7 @@ input::placeholder, textarea::placeholder {
     box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
 }/* Medieval Shop Page Styles */
 .shop-body {
-    background-image: url('../images/shop_bg.gif');
+    background-image: url('https://raw.githubusercontent.com/jeeejeeb/IMAGESCA2/main/shop_bg.gif');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
