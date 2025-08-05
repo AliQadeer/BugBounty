@@ -8,7 +8,7 @@
 }
 
 .solution-form {
-    background: rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(61, 41, 20, 0.8), rgba(0, 0, 0, 0.7));
     border: 1px solid #444;
     border-radius: 8px;
     padding: 20px;
