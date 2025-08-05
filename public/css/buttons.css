@@ -1,0 +1,727 @@
+/* Medieval Button Styles */
+
+/* Quiz Submit Button */
+#submitQuizBtn {
+    display: none;
+}
+
+/* Close Report Button */
+.close-report-btn {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.close-report-btn:hover {
+    background: linear-gradient(45deg, #218838, #1ea085);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.close-report-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Action Buttons */
+.action-btn {
+    background: linear-gradient(45deg, var(--gold), var(--bronze));
+    color: var(--dark-brown);
+    border: 2px solid var(--bronze);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.action-btn:hover {
+    background: linear-gradient(45deg, var(--bronze), var(--gold));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    border-color: var(--gold);
+}
+
+.action-btn:disabled {
+    background: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.action-btn.secondary {
+    background: linear-gradient(45deg, var(--silver), #888);
+    color: var(--dark-brown);
+    border-color: #666;
+}
+
+.action-btn.secondary:hover {
+    background: linear-gradient(45deg, #888, var(--silver));
+}
+
+.action-btn.primary {
+    background: linear-gradient(45deg, var(--blood-red), #cc0000);
+    color: var(--parchment);
+    border-color: var(--blood-red);
+}
+
+.action-btn.primary:hover {
+    background: linear-gradient(45deg, #cc0000, var(--blood-red));
+}
+
+.action-btn.danger {
+    background: linear-gradient(45deg, var(--blood-red), #990000);
+    color: var(--parchment);
+    border-color: var(--blood-red);
+}
+
+.action-btn.danger:hover {
+    background: linear-gradient(45deg, #990000, var(--blood-red));
+}
+
+/* Alert Buttons */
+.alert-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--bronze);
+    border-radius: 8px;
+    background: rgba(61, 41, 20, 0.8);
+    color: var(--parchment);
+    font-family: var(--font-medieval);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.alert-btn:hover {
+    background: var(--gold);
+    color: var(--dark-brown);
+    border-color: var(--gold);
+}
+
+.alert-btn.primary {
+    background: var(--gold);
+    color: var(--dark-brown);
+    border-color: var(--gold);
+}
+
+.alert-btn.primary:hover {
+    background: var(--bronze);
+}
+
+/* Realm Button */
+.realm-btn {
+    background: linear-gradient(45deg, var(--blood-red), #cc0000);
+    border: 3px solid var(--gold);
+    padding: 1.2rem 2.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: var(--font-gothic);
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--parchment);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    transition: all 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    animation: medievalPulse 2.5s infinite;
+}
+
+@keyframes medievalPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 12px 35px rgba(212, 175, 55, 0.6);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    }
+}
+
+.realm-btn:hover {
+    background: linear-gradient(45deg, #cc0000, #990000);
+    transform: translateY(-3px) scale(1.05);
+    animation: none;
+    box-shadow: 0 12px 30px rgba(212, 175, 55, 0.6);
+}
+
+.btn-text {
+    display: block;
+    position: relative;
+}
+
+/* Toggle Buttons */
+.toggle-btn {
+    flex: 1;
+    padding: 0.75rem;
+    background: transparent;
+    color: var(--parchment);
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.toggle-btn.active {
+    background: linear-gradient(45deg, var(--gold), var(--bronze));
+    color: var(--dark-brown);
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Auth Button */
+.auth-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(45deg, var(--gold), var(--bronze));
+    color: var(--dark-brown);
+    border: 2px solid var(--bronze);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.auth-btn:hover {
+    background: linear-gradient(45deg, var(--bronze), var(--gold));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(212, 175, 55, 0.6);
+    border-color: var(--gold);
+}
+
+/* Back Button */
+.back-btn {
+    background: rgba(61, 41, 20, 0.6);
+    border: 2px solid var(--bronze);
+    color: var(--parchment);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-medieval);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.back-btn:hover {
+    background: rgba(139, 0, 0, 0.2);
+    border-color: var(--blood-red);
+    color: var(--blood-red);
+    box-shadow: 0 0 15px rgba(139, 0, 0, 0.3);
+    text-shadow: 0 0 10px var(--blood-red);
+}
+
+/* Inventory Action Buttons */
+.action-btn {
+    padding: 0.75rem 2rem;
+    border: 2px solid var(--bronze);
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(61, 41, 20, 0.8), rgba(0, 0, 0, 0.7));
+    color: var(--parchment);
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.action-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    background: linear-gradient(135deg, rgba(61, 41, 20, 0.9), rgba(212, 175, 55, 0.1));
+}
+
+.action-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    border-color: var(--bronze);
+    color: var(--silver);
+}
+
+/* Equip and Unequip Buttons */
+.equip-btn {
+    border-color: var(--forest-green, #228B22);
+}
+
+.equip-btn:hover {
+    border-color: var(--forest-green, #228B22);
+    color: var(--forest-green, #228B22);
+    box-shadow: 0 0 15px rgba(34, 139, 34, 0.3);
+}
+
+.unequip-btn {
+    border-color: var(--crimson, #DC143C);
+}
+
+.unequip-btn:hover {
+    border-color: var(--crimson, #DC143C);
+    color: var(--crimson, #DC143C);
+    box-shadow: 0 0 15px rgba(220, 20, 60, 0.3);
+}
+
+/* Submit Button */
+.submit-btn {
+    align-self: center;
+    padding: 1rem 2rem;
+    background: linear-gradient(45deg, var(--royal-blue), #3457c4);
+    color: var(--parchment);
+    border: 2px solid var(--royal-blue);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.submit-btn:hover {
+    background: linear-gradient(45deg, #3457c4, var(--royal-blue));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(65, 105, 225, 0.4);
+    border-color: #3457c4;
+}
+
+/* Tab Buttons */
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    background: rgba(61, 41, 20, 0.6);
+    border: 2px solid var(--bronze);
+    color: var(--parchment);
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.tab-btn:hover,
+.tab-btn.active {
+    background: rgba(65, 105, 225, 0.2);
+    border-color: var(--royal-blue);
+    color: var(--royal-blue);
+    box-shadow: 0 0 15px rgba(65, 105, 225, 0.4);
+    text-shadow: 0 0 10px var(--royal-blue);
+}
+
+/* Edit and Delete Buttons */
+.edit-btn, .delete-btn {
+    background: rgba(61, 41, 20, 0.6);
+    border: 1px solid var(--bronze);
+    color: var(--parchment);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-medieval);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.edit-btn:hover {
+    background: rgba(65, 105, 225, 0.2);
+    border-color: var(--royal-blue);
+    color: var(--royal-blue);
+    box-shadow: 0 0 10px rgba(65, 105, 225, 0.3);
+}
+
+.delete-btn:hover {
+    background: rgba(139, 0, 0, 0.2);
+    border-color: var(--blood-red);
+    color: var(--blood-red);
+    box-shadow: 0 0 10px rgba(139, 0, 0, 0.3);
+}
+
+/* Filter Buttons */
+.filter-btn {
+    padding: 0.75rem 1.5rem;
+    background: rgba(61, 41, 20, 0.7);
+    border: 2px solid var(--bronze);
+    color: var(--parchment);
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    letter-spacing: 1px;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: var(--gold);
+    color: var(--gold);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    text-shadow: 0 0 10px var(--gold);
+}
+
+/* Purchase Button */
+.purchase-btn {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: linear-gradient(45deg, var(--gold), var(--bronze));
+    border: 2px solid var(--bronze);
+    color: var(--dark-brown);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.purchase-btn:hover {
+    background: linear-gradient(45deg, var(--bronze), var(--gold));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    border-color: var(--gold);
+}
+
+.purchase-btn:disabled {
+    background: var(--silver);
+    border-color: #666;
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.6;
+    box-shadow: none;
+}
+
+/* Quiz Action Buttons */
+.quiz-actions .action-btn {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(45deg, var(--gold), var(--bronze));
+    border: 2px solid var(--bronze);
+    color: var(--dark-brown);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    min-width: 120px;
+}
+
+.quiz-actions .action-btn:hover:not(:disabled) {
+    background: linear-gradient(45deg, var(--bronze), var(--gold));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    border-color: var(--gold);
+}
+
+.quiz-actions .action-btn:disabled {
+    background: var(--silver);
+    border-color: #666;
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.6;
+    box-shadow: none;
+}
+
+/* Profile Button */
+.profile-btn {
+    background: linear-gradient(45deg, #4169E1, #1E90FF);
+    border: 2px solid #4169E1;
+    color: white;
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 15px rgba(65, 105, 225, 0.4);
+    min-width: 150px;
+    margin-left: 1rem;
+}
+
+.profile-btn:hover {
+    background: linear-gradient(45deg, #1E90FF, #0000CD);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(65, 105, 225, 0.6);
+}
+
+/* Success Button */
+.success-btn {
+    background: linear-gradient(45deg, #32CD32, #228B22);
+    border: 2px solid #32CD32;
+    color: white;
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 15px rgba(50, 205, 50, 0.4);
+    min-width: 150px;
+}
+
+.success-btn:hover {
+    background: linear-gradient(45deg, #228B22, #006400);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(50, 205, 50, 0.6);
+}
+
+/* Failure Button */
+.failure-btn {
+    background: linear-gradient(45deg, #DC143C, #B22222);
+    border: 2px solid #DC143C;
+    color: white;
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.4);
+    min-width: 150px;
+}
+
+.failure-btn:hover {
+    background: linear-gradient(45deg, #B22222, #8B0000);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(220, 20, 60, 0.6);
+}
+
+/* Button Responsive Design */
+
+/* Mobile phones */
+@media (max-width: 480px) {
+    .action-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .alert-btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Small mobile phones */
+@media (max-width: 360px) {
+    .action-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    .realm-btn {
+        padding: 0.9rem 2rem;
+        font-size: 1rem;
+        letter-spacing: 2px;
+    }
+    
+    .toggle-btn {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+    
+    .auth-btn {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+    
+    .quiz-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .quiz-actions .action-btn {
+        width: 200px;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .success-btn, .failure-btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+        min-width: 120px;
+    }
+    
+    .profile-btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+        min-width: 120px;
+        margin-left: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .quiz-actions .action-btn {
+        width: 180px;
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+    }
+    
+    .success-btn, .failure-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        min-width: 100px;
+    }
+    
+    .profile-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        min-width: 100px;
+        margin-left: 0;
+    }
+}
+
+/* Medium tablets */
+@media (max-width: 968px) {
+    .realm-btn {
+        padding: 1rem 2.2rem;
+        font-size: 1.1rem;
+        letter-spacing: 2.5px;
+    }
+}
+
+/* Large tablets */
+@media (max-width: 1024px) {
+    .realm-btn {
+        padding: 1.1rem 2.3rem;
+        font-size: 1.15rem;
+    }
+    
+    .submit-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.95rem;
+    }
+    
+    .tab-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    .edit-btn, .delete-btn {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.75rem;
+    }
+    
+    .filter-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    .purchase-btn {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Enhanced tablet styles */
+@media (max-width: 1200px) {
+    .realm-btn {
+        padding: 1.15rem 2.4rem;
+        font-size: 1.18rem;
+    }
+}
+
+/* Additional responsive adjustments for action buttons */
+@media (max-width: 1024px) {
+    .action-btn {
+        padding: 0.65rem 1.8rem;
+        min-width: 110px;
+    }
+}
+
+@media (max-width: 768px) {
+    .action-btn {
+        padding: 0.6rem 1.5rem;
+        min-width: 100px;
+    }
+    
+    .back-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .action-btn {
+        padding: 0.5rem 1rem;
+        min-width: 90px;
+        font-size: 0.85rem;
+    }
+    
+    .back-btn {
+        padding: 0.35rem 0.7rem;
+        font-size: 0.8rem;
+    }
+    
+    .submit-btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    .tab-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .filter-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .purchase-btn {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+}

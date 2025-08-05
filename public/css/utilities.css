@@ -1,0 +1,316 @@
+/* ==========================================
+   UTILITY CLASSES
+   ========================================== */
+
+/* Loading States */
+.loading {
+    text-align: center;
+    padding: 2rem;
+}
+
+.loading-message {
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+    color: #ccc;
+}
+
+/* Report Container */
+.reports-list-container {
+    max-width: 800px;
+    margin: 20px auto;
+    display: none;
+}
+
+/* Play Page Message Styles */
+.no-reports {
+    text-align: center;
+    color: #ccc;
+    padding: 40px;
+    font-size: 16px;
+}
+
+/* Play Page Animations */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(0, 255, 136, 0.3);
+    border-radius: 50%;
+    border-top-color: #00ff88;
+    animation: spin 1s linear infinite;
+}
+
+.loading, .error-message, .empty-state {
+    text-align: center;
+    padding: 1rem;
+    color: #9ca3af;
+    font-style: italic;
+}
+
+.loading-leaderboard {
+    text-align: center;
+    padding: 3rem;
+    color: var(--silver);
+    font-family: var(--font-garamond);
+    font-size: 1.2rem;
+}
+
+.loading-reviews {
+    text-align: center;
+    padding: 3rem;
+    color: var(--silver);
+    font-family: var(--font-garamond);
+    font-size: 1.2rem;
+}
+
+.loading-solutions {
+    text-align: center;
+    color: var(--silver);
+    font-family: var(--font-garamond);
+    font-size: 1.2rem;
+    padding: 3rem;
+    background: rgba(61, 41, 20, 0.4);
+    border-radius: 10px;
+    border: 2px dashed var(--bronze);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Status Indicators */
+.status-open {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.status-closed {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+/* Success and Failure Badges */
+.success-badge {
+    color: var(--gold);
+    background: rgba(212, 175, 55, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 2px solid var(--gold);
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 1rem 0;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    text-shadow: 0 0 10px var(--gold);
+}
+
+.success-badge, .failure-badge {
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+}
+
+.success-badge {
+    background: rgba(255, 215, 0, 0.2);
+    border: 2px solid #FFD700;
+    color: #FFD700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+}
+
+.failure-badge {
+    background: rgba(255, 182, 193, 0.2);
+    border: 2px solid #FFB6C1;
+    color: #FFB6C1;
+    box-shadow: 0 0 15px rgba(255, 182, 193, 0.4);
+}
+
+/* Error Messages */
+.error-message {
+    color: var(--blood-red);
+    background: rgba(139, 0, 0, 0.15);
+    border: 2px solid var(--blood-red);
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.error-message {
+    color: #ef4444;
+}
+
+/* ==========================================
+   ANIMATIONS AND KEYFRAMES
+   ========================================== */
+
+/* Spin Animation - Used by loading states */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Modal Slide In Animation */
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Alert Slide Animations */
+@keyframes alertSlideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes alertSlideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Medieval Glow Animation */
+@keyframes medieval-glow {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.4), inset 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(212, 175, 55, 0.7), inset 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* Success and Failure Pulse Animations */
+@keyframes successPulse {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes failurePulse {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+/* Glow Animation */
+@keyframes glow {
+    from { box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+    to { box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
+}
+
+/* Sparkle Animation */
+@keyframes sparkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+    0%, 100% { background: rgba(255, 215, 0, 0.1); }
+    50% { background: rgba(255, 215, 0, 0.2); }
+}
+
+/* ==========================================
+   RESPONSIVE UTILITIES
+   ========================================== */
+
+/* Mobile responsiveness for badges and status indicators */
+@media (max-width: 768px) {
+    .success-badge, .failure-badge {
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .loading-leaderboard,
+    .loading-reviews,
+    .loading-solutions {
+        padding: 2rem;
+        font-size: 1rem;
+    }
+    
+    .loading {
+        padding: 1.5rem;
+    }
+    
+    .loading::after {
+        width: 25px;
+        height: 25px;
+        border-width: 2px;
+    }
+}
+
+@media (max-width: 480px) {
+    .success-badge, .failure-badge {
+        padding: 0.3rem 0.8rem;
+        font-size: 0.8rem;
+    }
+    
+    .loading-leaderboard,
+    .loading-reviews,
+    .loading-solutions {
+        padding: 1.5rem;
+        font-size: 0.9rem;
+    }
+}

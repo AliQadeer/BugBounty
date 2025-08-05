@@ -1,0 +1,1219 @@
+/* Import Game-Style Readable Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Play:wght@400;700&display=swap');
+
+/* Font Variables */
+:root {
+    --font-gothic: 'Orbitron', monospace;
+    --font-medieval: 'Rajdhani', sans-serif;
+    --font-english: 'Exo 2', sans-serif;
+    --font-garamond: 'Play', sans-serif;
+    
+    /* Medieval Color Palette for Typography */
+    --gold: #D4AF37;
+    --bronze: #8B4513;
+    --silver: #C0C0C0;
+    --dark-brown: #3D2914;
+    --parchment: #F4E4BC;
+    --blood-red: #8B0000;
+    --forest-green: #228B22;
+    --royal-blue: #4169E1;
+}
+
+/* Global Typography Styles */
+body {
+    font-family: var(--font-garamond);
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Navigation Typography */
+.nav-brand h1 {
+    color: var(--gold);
+    font-family: var(--font-gothic);
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px var(--gold);
+    letter-spacing: 2px;
+}
+
+.nav-link {
+    color: var(--parchment);
+    text-decoration: none;
+    font-family: var(--font-english);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--gold);
+    text-shadow: 0 0 10px var(--gold);
+}
+
+/* User Currency Display Typography */
+.user-currency {
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    color: var(--gold);
+}
+
+.coin-icon {
+    font-size: 24px;
+    color: var(--gold);
+    text-shadow: 0 0 10px var(--gold);
+}
+
+.coin-icon-small {
+    font-size: 16px;
+    color: var(--gold);
+    text-shadow: 0 0 8px var(--gold);
+}
+
+/* Medieval Button Typography */
+.action-btn {
+    color: var(--dark-brown);
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.action-btn.secondary {
+    color: var(--dark-brown);
+}
+
+.action-btn.primary {
+    color: var(--parchment);
+}
+
+.action-btn.danger {
+    color: var(--parchment);
+}
+
+/* Modal Typography */
+.modal-content {
+    color: var(--parchment);
+}
+
+.close {
+    color: var(--silver);
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.close:hover {
+    color: var(--gold);
+    text-shadow: 0 0 10px var(--gold);
+}
+
+/* Error and Success Message Typography */
+.error-message {
+    color: var(--blood-red);
+    font-family: var(--font-medieval);
+    text-align: center;
+}
+
+.success-message {
+    color: var(--forest-green);
+    font-family: var(--font-medieval);
+    text-align: center;
+}
+
+/* Input Typography */
+input, textarea, select {
+    color: var(--parchment);
+    font-size: 1rem;
+    font-family: var(--font-garamond);
+}
+
+input:focus, textarea:focus, select:focus {
+    color: var(--parchment);
+}
+
+input::placeholder, textarea::placeholder {
+    color: var(--silver);
+}
+
+/* Checkbox Typography */
+.checkbox-group input[type="checkbox"]:checked::before {
+    color: var(--dark-brown);
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 1;
+}
+
+.checkbox-label {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Alert System Typography */
+.alert-title {
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.alert-close {
+    color: var(--silver);
+    font-size: 1.5rem;
+}
+
+.alert-close:hover {
+    color: var(--gold);
+}
+
+.alert-body {
+    font-family: var(--font-garamond);
+    line-height: 1.5;
+    color: var(--parchment);
+}
+
+.alert-icon {
+    font-size: 1.2rem;
+}
+
+.custom-alert.success .alert-title {
+    color: var(--forest-green);
+}
+
+.custom-alert.success .alert-icon::before {
+    color: var(--forest-green);
+    font-weight: bold;
+}
+
+.custom-alert.error .alert-title {
+    color: var(--blood-red);
+}
+
+.custom-alert.error .alert-icon::before {
+    color: var(--blood-red);
+}
+
+.custom-alert.warning .alert-title {
+    color: #fbbf24;
+}
+
+.custom-alert.warning .alert-icon::before {
+    color: #fbbf24;
+}
+
+.custom-alert.info .alert-title {
+    color: var(--royal-blue);
+}
+
+.custom-alert.info .alert-icon::before {
+    color: var(--royal-blue);
+}
+
+.alert-btn {
+    color: var(--parchment);
+    font-family: var(--font-medieval);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.alert-btn:hover {
+    color: var(--dark-brown);
+}
+
+.alert-btn.primary {
+    color: var(--dark-brown);
+}
+
+/* Home Page Typography */
+.welcome-section h1 {
+    font-size: 2.5rem;
+    color: var(--gold);
+    font-family: var(--font-gothic);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 25px var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+.stat-label {
+    color: var(--silver);
+    font-family: var(--font-english);
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.stat-value {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-size: 2.8rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px var(--gold);
+}
+
+.vulnerabilities-section h2 {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-size: 2rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px var(--gold);
+}
+
+.vulnerability-type {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.vulnerability-description {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+    line-height: 1.5;
+}
+
+.vulnerability-points {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.recent-activity h2 {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-size: 2rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px var(--gold);
+}
+
+.activity-text {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+}
+
+.activity-time {
+    color: var(--silver);
+    font-family: var(--font-english);
+    font-size: 0.9rem;
+}
+
+/* Enter the Realm Button Typography */
+.realm-btn {
+    font-family: var(--font-gothic);
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--parchment);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Activity Items Typography */
+.activity-text {
+    color: #e0e6ed;
+    font-size: 0.9rem;
+}
+
+.vulnerability-type {
+    color: #d4af37;
+    font-weight: 600;
+}
+
+.activity-points {
+    color: #4ade80;
+    font-weight: 600;
+}
+
+.activity-status {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-open {
+    color: #ef4444;
+}
+
+.status-closed {
+    color: #22c55e;
+}
+
+.loading, .error-message, .empty-state {
+    text-align: center;
+    color: #9ca3af;
+    font-style: italic;
+}
+
+.error-message {
+    color: #ef4444;
+}
+
+/* Login/Auth Page Typography */
+.toggle-btn {
+    color: var(--parchment);
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.toggle-btn.active {
+    color: var(--dark-brown);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.auth-form h2 {
+    text-align: center;
+    color: var(--gold);
+    font-family: var(--font-gothic);
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px var(--gold);
+}
+
+.auth-form label {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.auth-form input {
+    color: var(--parchment);
+    font-size: 1rem;
+    font-family: var(--font-garamond);
+}
+
+.auth-form input:focus {
+    color: var(--silver);
+}
+
+.auth-form .action-btn {
+    color: var(--dark-brown);
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.auth-form .action-btn:hover {
+    color: var(--blood-red);
+}
+
+.auth-form p {
+    text-align: center;
+    font-family: var(--font-medieval);
+    font-size: 1rem;
+}
+
+/* Leaderboard Typography */
+.leaderboard-header h1 {
+    color: var(--gold);
+    font-family: var(--font-gothic);
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 25px var(--gold);
+}
+
+.leaderboard-header p {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.leaderboard-table th {
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gold);
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.leaderboard-table td.left-align {
+    text-align: left !important;
+}
+
+.rank-number {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.rank-1 {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px var(--gold);
+}
+
+.rank-2 {
+    color: var(--silver);
+    font-family: var(--font-medieval);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px var(--silver);
+}
+
+.rank-3 {
+    color: var(--bronze);
+    font-family: var(--font-medieval);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px var(--bronze);
+}
+
+.username {
+    font-size: 0.8rem;
+}
+
+.player-name {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.points-earned {
+    color: var(--gold);
+    font-family: var(--font-english);
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.total-points {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.last-activity {
+    font-size: 0.8rem;
+    color: var(--silver);
+    font-family: var(--font-english);
+}
+
+.your-position h3 {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1.3rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.your-rank {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.your-name {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.your-points {
+    color: var(--gold);
+    font-family: var(--font-english);
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.your-total {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.no-data {
+    text-align: center;
+    color: var(--silver);
+    font-family: var(--font-garamond);
+    font-size: 1.2rem;
+}
+
+.no-position {
+    text-align: center;
+    color: var(--silver);
+    font-family: var(--font-garamond);
+    font-size: 1.2rem;
+}
+
+/* Play Page Typography */
+.play-header h1 {
+    color: var(--blood-red);
+    font-family: var(--font-gothic);
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 25px var(--blood-red);
+}
+
+.play-header p {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.section-header h2 {
+    color: var(--blood-red);
+    font-family: var(--font-medieval);
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.section-header p {
+    color: var(--parchment);
+}
+
+.play-button {
+    font-family: var(--font-medieval);
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.play-button:hover {
+    color: var(--blood-red);
+    text-shadow: 0 0 10px var(--blood-red);
+}
+
+.difficulty-selector {
+    text-align: center;
+}
+
+.difficulty-level {
+    font-size: 4rem;
+}
+
+.action-card h3 {
+    color: var(--blood-red);
+    font-family: var(--font-medieval);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.action-card p {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.vulnerability-option {
+    text-align: center;
+}
+
+.vulnerability-option h3 {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.vulnerability-option p {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+    line-height: 1.4;
+}
+
+.vulnerability-option .points {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.timer-display {
+    color: var(--parchment);
+    font-family: var(--font-english);
+    font-weight: bold;
+    text-align: right;
+    letter-spacing: 1px;
+}
+
+.score-display {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.answer-option {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+    font-weight: bold;
+}
+
+.answer-option.correct {
+    color: var(--parchment);
+}
+
+.answer-option.incorrect {
+    color: var(--gold);
+    text-shadow: 0 0 10px var(--gold);
+}
+
+.answer-option.selected {
+    color: var(--forest-green);
+}
+
+.answer-option.missed {
+    color: var(--blood-red);
+}
+
+.game-info {
+    text-align: center;
+}
+
+.results-container h2 {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px var(--gold);
+}
+
+.results-text {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+}
+
+.result-label {
+    font-family: var(--font-english);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.result-value {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.coins-earned {
+    color: var(--gold);
+}
+
+.level-up-message {
+    font-family: var(--font-medieval);
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px var(--gold);
+}
+
+.play-again-btn {
+    text-align: center;
+}
+
+.final-message {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+    font-size: 1.2rem;
+    line-height: 1.4;
+    text-align: center;
+}
+
+/* Responsive Typography */
+@media (max-width: 1024px) {
+    .nav-brand h1 {
+        font-size: 1.6rem;
+    }
+    
+    .nav-link {
+        font-size: 1rem;
+        text-align: left;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-brand h1 {
+        font-size: 1.4rem;
+    }
+    
+    .nav-link {
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .action-btn {
+        font-size: 0.9rem;
+    }
+    
+    .coin-icon {
+        font-size: 20px;
+    }
+    
+    .coin-icon-small {
+        font-size: 14px;
+    }
+    
+    .alert-title {
+        font-size: 1rem;
+    }
+    
+    .alert-btn {
+        font-size: 0.8rem;
+    }
+    
+    .welcome-section h1 {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+    }
+    
+    .vulnerabilities-section h2 {
+        font-size: 1.7rem;
+    }
+    
+    .vulnerability-type {
+        font-size: 1.2rem;
+    }
+    
+    .realm-btn {
+        font-size: 1rem;
+        letter-spacing: 2px;
+    }
+    
+    .recent-activity h2 {
+        font-size: 1.7rem;
+    }
+    
+    .auth-form h2 {
+        font-size: 1.3rem;
+    }
+    
+    .auth-form label {
+        font-size: 0.85rem;
+    }
+    
+    .auth-form .action-btn {
+        font-size: 0.9rem;
+    }
+    
+    .auth-form p {
+        font-size: 1rem;
+    }
+    
+    .leaderboard-header h1 {
+        font-size: 2rem;
+    }
+    
+    .leaderboard-header p {
+        font-size: 1rem;
+    }
+    
+    .rank-number {
+        font-size: 0.9rem;
+    }
+    
+    .player-name {
+        font-size: 1.1rem;
+    }
+    
+    .points-earned {
+        font-size: 1rem;
+    }
+    
+    .total-points {
+        font-size: 0.8rem;
+    }
+    
+    .your-position h3 {
+        font-size: 1.2rem;
+    }
+    
+    .your-rank {
+        font-size: 1rem;
+    }
+    
+    .play-header h1 {
+        font-size: 2rem;
+    }
+    
+    .play-header p {
+        font-size: 1rem;
+    }
+    
+    .section-header h2 {
+        font-size: 1.6rem;
+    }
+    
+    .action-card h3 {
+        font-size: 1.3rem;
+    }
+    
+    .action-card p {
+        font-size: 0.95rem;
+    }
+    
+    .vulnerability-option h3 {
+        font-size: 1.2rem;
+    }
+    
+    .vulnerability-option p {
+        font-size: 0.95rem;
+    }
+    
+    .timer-display {
+        text-align: center;
+        font-size: 0.9rem;
+    }
+    
+    .results-container h2 {
+        font-size: 1.6rem;
+    }
+    
+    .final-message {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-brand h1 {
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+    
+    .nav-link {
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .action-btn {
+        font-size: 0.8rem;
+    }
+    
+    .welcome-section h1 {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+    }
+    
+    .stat-value {
+        font-size: 1.3rem;
+    }
+    
+    .vulnerabilities-section h2 {
+        font-size: 1.4rem;
+        letter-spacing: 2px;
+    }
+    
+    .vulnerability-type {
+        font-size: 1.1rem;
+    }
+    
+    .vulnerability-description {
+        font-size: 0.9rem;
+    }
+    
+    .vulnerability-points {
+        font-size: 1rem;
+    }
+    
+    .realm-btn {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }
+    
+    .recent-activity h2 {
+        font-size: 1.4rem;
+        letter-spacing: 2px;
+    }
+    
+    .activity-text {
+        font-size: 0.9rem;
+    }
+    
+    .activity-time {
+        font-size: 0.8rem;
+    }
+    
+    .auth-form h2 {
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+    }
+    
+    .auth-form label {
+        font-size: 0.75rem;
+    }
+    
+    .auth-form input {
+        font-size: 0.85rem;
+    }
+    
+    .auth-form .action-btn {
+        font-size: 0.85rem;
+    }
+    
+    .auth-form p {
+        font-size: 0.85rem;
+    }
+    
+    .leaderboard-header h1 {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+    }
+    
+    .leaderboard-header p {
+        font-size: 0.9rem;
+    }
+    
+    .rank-number {
+        font-size: 0.8rem;
+    }
+    
+    .your-position h3 {
+        font-size: 1.1rem;
+    }
+    
+    .your-rank {
+        font-size: 0.9rem;
+    }
+    
+    .your-name {
+        font-size: 0.9rem;
+    }
+    
+    .your-points {
+        font-size: 0.9rem;
+        text-align: right;
+    }
+    
+    .play-header h1 {
+        font-size: 1.7rem;
+        letter-spacing: 2px;
+    }
+    
+    .play-header p {
+        font-size: 0.9rem;
+    }
+    
+    .section-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    .action-card h3 {
+        font-size: 1.2rem;
+    }
+    
+    .action-card p {
+        font-size: 0.9rem;
+    }
+    
+    .vulnerability-option h3 {
+        font-size: 1.1rem;
+    }
+    
+    .vulnerability-option p {
+        font-size: 0.9rem;
+    }
+    
+    .timer-display {
+        font-size: 0.8rem;
+    }
+    
+    .results-container h2 {
+        font-size: 1.4rem;
+    }
+    
+    .final-message {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .nav-brand h1 {
+        font-size: 1rem;
+    }
+    
+    .nav-link {
+        font-size: 0.75rem;
+    }
+    
+    .action-btn {
+        font-size: 0.8rem;
+    }
+    
+    .welcome-section h1 {
+        font-size: 1.3rem;
+    }
+    
+    .vulnerabilities-section h2,
+    .recent-activity h2 {
+        font-size: 1.2rem;
+    }
+    
+    .realm-btn {
+        font-size: 0.8rem;
+    }
+    
+    .auth-form h2 {
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+    
+    .auth-form label {
+        font-size: 0.7rem;
+    }
+    
+    .auth-form input {
+        font-size: 0.8rem;
+    }
+    
+    .auth-form .action-btn {
+        font-size: 0.8rem;
+    }
+    
+    .leaderboard-header h1 {
+        font-size: 1.3rem;
+        letter-spacing: 1px;
+    }
+    
+    .rank-number {
+        font-size: 0.75rem;
+    }
+    
+    .player-name {
+        font-size: 0.8rem;
+    }
+    
+    .your-position h3 {
+        font-size: 1rem;
+    }
+    
+    .your-rank {
+        font-size: 0.8rem;
+    }
+    
+    .play-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .results-container h2 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+    .welcome-section h1 {
+        font-size: 1.5rem;
+    }
+    
+    .realm-btn {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .auth-form h2 {
+        font-size: 1.1rem;
+    }
+}
+
+/* Additional Shop Typography Styles */
+.modal h3 {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.cost-display {
+    color: var(--gold);
+    font-family: var(--font-english);
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.item-name {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.item-description {
+    color: var(--parchment);
+    font-family: var(--font-garamond);
+    line-height: 1.4;
+}
+
+.shop-category h3 {
+    color: var(--gold);
+    font-family: var(--font-medieval);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}

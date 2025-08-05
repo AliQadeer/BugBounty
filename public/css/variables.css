@@ -1,0 +1,39 @@
+/* Import Game-Style Readable Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Play:wght@400;700&display=swap');
+
+/* Font Variables */
+:root {
+    --font-gothic: 'Orbitron', monospace;
+    --font-medieval: 'Rajdhani', sans-serif;
+    --font-english: 'Exo 2', sans-serif;
+    --font-garamond: 'Play', sans-serif;
+    
+    /* Medieval Color Palette */
+    --gold: #D4AF37;
+    --bronze: #8B4513;
+    --silver: #C0C0C0;
+    --dark-brown: #3D2914;
+    --parchment: #F4E4BC;
+    --blood-red: #8B0000;
+    --forest-green: #228B22;
+    --royal-blue: #4169E1;
+}
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-garamond);
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #ffffff;
+    overflow-x: hidden;
+    font-size: 16px;
+    line-height: 1.6;
+}
