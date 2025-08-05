@@ -10,6 +10,14 @@
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
+    transition: all 0.3s ease;
+    animation: slideInRight 0.5s ease;
+}
+
+.user-currency:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(212, 175, 55, 0.5);
+    border-color: var(--gold);
 }
 
 .coin-icon {
@@ -19,6 +27,13 @@
     filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.8));
     max-width: 40px;
     max-height: 40px;
+    transition: all 0.3s ease;
+    animation: float 3s ease-in-out infinite;
+}
+
+.coin-icon:hover {
+    transform: scale(1.1) rotate(10deg);
+    text-shadow: 0 0 15px var(--gold);
 }
 
 .coin-icon-small {
@@ -28,6 +43,12 @@
     filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.8));
     max-width: 40px;
     max-height: 40px;
+    transition: all 0.3s ease;
+}
+
+.coin-icon-small:hover {
+    transform: scale(1.1);
+    text-shadow: 0 0 12px var(--gold);
 }
 
 /* Scroll Image */
@@ -39,6 +60,13 @@
     object-fit: contain;
     filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.5));
     z-index: 1;
+    transition: all 0.3s ease;
+    animation: fadeIn 0.8s ease;
+}
+
+.scroll-image:hover {
+    transform: scale(1.02);
+    filter: drop-shadow(0 0 40px rgba(212, 175, 55, 0.7));
 }
 
 /* Alert System Enhancements */
@@ -181,4 +209,150 @@
         max-width: 85vw;
         min-height: 400px;
     }
+}
+
+/* Additional Animation Components */
+
+/* Custom Alert Animations */
+.custom-alert {
+    animation: alertSlideIn 0.4s ease;
+    transition: all 0.3s ease;
+}
+
+.custom-alert.closing {
+    animation: alertSlideOut 0.3s ease forwards;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    border: 3px solid rgba(0, 255, 136, 0.3);
+    border-radius: 50%;
+    border-top-color: #00ff88;
+    animation: spin 1s linear infinite;
+    width: 40px;
+    height: 40px;
+}
+
+/* Modal Content Animation */
+.modal-content {
+    animation: modalSlideIn 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+/* Progress Bar Animation */
+.progress-fill {
+    transition: width 0.5s ease;
+    animation: fillProgress 2s ease-in-out;
+}
+
+/* Activity Items */
+.activity-item {
+    transition: all 0.3s ease;
+}
+
+.activity-item:hover {
+    transform: translateX(5px);
+    background: rgba(15, 15, 30, 0.9);
+    border-color: rgba(212, 175, 55, 0.5);
+}
+
+/* Vulnerability Cards */
+.vulnerability-card {
+    transition: all 0.3s ease;
+    animation: slideUp 0.5s ease;
+}
+
+.vulnerability-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(212, 175, 55, 0.3);
+    border-color: var(--gold);
+}
+
+/* Action Cards */
+.action-card {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.action-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(139, 0, 0, 0.15), transparent);
+    transform: rotate(45deg);
+    transition: transform 0.6s ease;
+    opacity: 0;
+}
+
+.action-card:hover::before {
+    transform: rotate(45deg) translate(50%, 50%);
+    opacity: 1;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(139, 0, 0, 0.4);
+    border-color: var(--blood-red);
+}
+
+/* Leaderboard Entries */
+.leaderboard-entry {
+    transition: all 0.3s ease;
+    animation: slideInLeft 0.5s ease;
+}
+
+.leaderboard-entry:hover {
+    background: rgba(212, 175, 55, 0.15);
+    border-radius: 10px;
+    border: 2px solid var(--gold);
+    animation: medieval-glow 2.5s infinite;
+}
+
+/* Star Rating Animation */
+.star {
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.star:hover,
+.star.active {
+    transform: scale(1.1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 15px var(--gold);
+}
+
+/* Form Animations */
+.auth-form.active {
+    animation: fadeIn 0.3s ease;
+}
+
+.play-section.active {
+    animation: fadeIn 0.5s ease;
+}
+
+.solutions-list.active {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Button pulse animation for important actions */
+.realm-btn {
+    animation: medievalPulse 2.5s infinite;
+    transition: all 0.3s ease;
+}
+
+.realm-btn:hover {
+    animation: none;
+    transform: translateY(-3px) scale(1.05);
+}
+
+/* Fixed positioning with transform centering */
+.fixed-realm-btn {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
 }
